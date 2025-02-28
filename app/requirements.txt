@@ -1,0 +1,7 @@
+langchain
+openai
+tiktoken
+faiss-cpu
+langchain_experimental
+langchain[docarray]
+Flask==3.0.3
