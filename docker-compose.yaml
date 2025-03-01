@@ -1,19 +1,23 @@
-version: '3'
 services:
   web:
-    build: ./app
+    build:
+      context: ./app
     ports:
       - "8127:5000"
     environment:
       FLASK_APP: app.py
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
     depends_on:
       db:
-        condition: service_healthy
+        condition: service_healthy  # Ensures that the web service waits until db is healthy
     restart: always
+    networks:
+      - default
 
   db:
     image: postgres:latest
-    build: ./db
+    build: ./db  # Assuming you want to build a custom PostgreSQL image from ./db directory
     ports:
       - "8269:5432"
     environment:
@@ -21,16 +25,20 @@ services:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data  # Persistent volume for database data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U myuser -d mydatabase"]
       interval: 5s
       timeout: 5s
       retries: 5
     restart: always
+    networks:
+      - default
+
+
 
 volumes:
-  db_data:
+  db_data: 
 
 networks:
   default:

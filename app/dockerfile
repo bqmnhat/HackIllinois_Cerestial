@@ -2,18 +2,24 @@ FROM python:3.13-slim
 
 WORKDIR /app
 
-COPY . /app
+RUN apt-get update && apt-get install -y --no-install-recommends git && \
+    rm -rf /var/lib/apt/lists/* && pip install -U pip
 
-# RUN echo $(ls -1 /app)
+ENV CONTEXT_PATH=./../data/context.txt \
+    GIVEN_CONTEXT_PATH=./../data/g_context.txt \
+    WEATHER_CONTEXT_PATH=./../data/w_context.txt \
+    SCRAPE_CONTEXT_PATH=./../data/s_context.txt \
+    LATITUDE=40.110558 \
+    LONGITUDE=-88.228333 \
+    IP=172.20.10.2
 
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y git
-
+COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . /app
 
 EXPOSE 8127
 
 WORKDIR /app/src
 
-CMD ["flask", "run", "--host=0.0.0.0", "--port=8127"]
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]

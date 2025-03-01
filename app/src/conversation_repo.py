@@ -1,5 +1,6 @@
 import psycopg2
 from datetime import datetime
+import os
 
 class Message:
     def __init__(self, array):
@@ -18,14 +19,15 @@ class Message:
 
 class DB:
     def __init__(self):
-        self.conn = psycopg2.connect(database="mydatabase", user="myuser", password="mypassword", host="0.0.0.0", port=8269)
-    
-    def findLastMessage(self, n = 10):
+        self.conn = psycopg2.connect(database="mydatabase", user="myuser", password="mypassword", host='db', port=5432)
+        
+    def findLastMessage(self, n):
         curs = self.conn.cursor()
-        query = "SELECT * FROM (SELECT * FROM CONVERSATION ORDER BY %s DESC LIMIT 10) sub ORDER BY id ASC;"
+        query = "SELECT * FROM (SELECT * FROM CONVERSATION ORDER BY id DESC LIMIT (%s)) sub ORDER BY id ASC;"
         curs.execute(query, (n))
         messages = curs.fetchall()
         curs.close()
+        return [Message(message).to_dict() for message in messages]
         
     def insertMessage(self, is_bot, message):
         time = datetime.now()  
