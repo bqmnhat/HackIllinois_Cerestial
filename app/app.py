@@ -44,7 +44,6 @@ def query():
 
         # answer = chatBot.ask(question)
         
-        # Respond with the received data or a success message
         return jsonify({
             'question': question,
             'answer': "answer"
