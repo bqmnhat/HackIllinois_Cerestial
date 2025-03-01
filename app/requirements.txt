@@ -16,5 +16,5 @@ Flask==3.0.3
 apscheduler
 ragscraper
 urllib3
-google
+google.generativeai
 rank_bm25
