@@ -6,13 +6,15 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.memory import ConversationBufferMemory
 
+import os
+
 class Model:
-    def __init__(self, txt_file_path):
-        self.txt_file_path = txt_file_path
+    def __init__(self):
+        self.context_path = os.getenv("CONTEXT_PATH")
         self.conversation_chain = self.create_conversation_chain()
 
     def data(self):
-        loader = TextLoader(file_path=self.txt_file_path, encoding="utf-8")
+        loader = TextLoader(file_path=self.context_path, encoding="utf-8")
         data = loader.load()
         text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
         return text_splitter.split_documents(data)

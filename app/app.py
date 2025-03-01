@@ -1,61 +1,60 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from model import Model
+from data_scraper import updateWeatherContext
+from apscheduler.schedulers.background import BackgroundScheduler
+import datetime
+import time
+from dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 app = Flask(__name__)
-txt_file_path = 'context.txt'
-chatBot = None
+model = None
 
-class Model:
-    def __init__(self, txt_file_path):
-        self.txt_file_path = txt_file_path
-        self.conversation_chain = self.create_conversation_chain()
+def start_scheduler():
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(updateWeatherContext, 'cron', hour=0, minute=0)  # 0:00 hours daily
+    scheduler.start()
 
-    def data(self):
-        loader = TextLoader(file_path=self.txt_file_path, encoding="utf-8")
-        data = loader.load()
-        text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-        return text_splitter.split_documents(data)
 
-    def vectorstore(self):
-        embeddings = OpenAIEmbeddings()
-        return FAISS.from_documents(self.data(), embedding=embeddings)
-
-    def memory(self):
-        return ConversationBufferMemory(memory_key='chat_history', return_messages=True)
-
-    def llm(self):
-        return ChatOpenAI(temperature=0.7, model_name="gpt-4o")
-
-    def create_conversation_chain(self):
-        return ConversationalRetrievalChain.from_llm(
-            llm=self.llm(),
-            chain_type="stuff",
-            retriever=self.vectorstore().as_retriever(),
-            memory=self.memory()
-        )
-
-    def ask(self, query):
-        result = self.conversation_chain({"question": query}) 
-        return result["answer"]   
-
-def main():
+def init():
     global chatBot  
-    chatBot = Model(txt_file_path)
+    chatBot = Model()
+    updateWeatherContext()  # This will run once when the Flask app starts
+    start_scheduler() 
 
 @app.route("/")
 def home():
     return "Chatbot is running!"
 
-@app.route("/internal/test_env")
+@app.route("/internal/test")
 def test_env():
-    return os.getenv("TEST_ENV")
+    return f'context_path = {os.getenv("CONTEXT_PATH")}'
 
-@app.route("/internal/query")
+@app.route("/internal/query", )
 def query():
-    query = request.args.get('question')
-    return f'Q: {query}'
+    try:
+        data = request.get_json()
+        
+        if data is None:
+            return jsonify({'error': 'Invalid JSON'}), 400
+        
+        question = data.get('question')
+
+        # answer = chatBot.ask(question)
+        
+        # Respond with the received data or a success message
+        return jsonify({
+            'question': question,
+            'answer': "answer"
+        }), 200
+    except Exception as e:
+        # Handle any errors gracefully
+        return jsonify({'error': str(e)}), 500
+
+
+init()
 
 if __name__ == "__main__":
-    main()
     app.run(debug=True)  
