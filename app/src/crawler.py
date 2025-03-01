@@ -90,6 +90,5 @@ def scrape_and_rank(query, filename, num_results=2):
             f.write("-" * 40 + "\n")
         print("Results written successfully.") #Status print
 
-def updateScrapeData():
-    query = "tools or resources to help farmers assess their soil's water-holding capacity"
-    scrape_and_rank(query, os.getenv('SCRAPE_CONTEXT_PATH'), 2)
+def updateScrapeData(query):
+    scrape_and_rank(query, os.getenv('SCRAPE_CONTEXT_PATH'), 3)

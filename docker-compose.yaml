@@ -1,0 +1,37 @@
+version: '3'
+services:
+  web:
+    build: ./app
+    ports:
+      - "8127:5000"
+    environment:
+      FLASK_APP: app.py
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+
+  db:
+    image: postgres:latest
+    build: ./db
+    ports:
+      - "8269:5432"
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d mydatabase"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: always
+
+volumes:
+  db_data:
+
+networks:
+  default:
+    driver: bridge
