@@ -17,4 +17,6 @@ apscheduler
 ragscraper
 urllib3
 google.generativeai
+psycopg2-binary
 rank_bm25
+googlesearch-python

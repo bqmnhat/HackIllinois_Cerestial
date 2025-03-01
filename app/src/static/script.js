@@ -20,7 +20,7 @@ const createChatLi = (message, className) => {
 const generateResponse = (incomingChatLi, message) => {
 
     
-    const API_url = "http://0.0.0.0/internal/query";
+    const API_url = "/internal/query";
     const messageElement = incomingChatLi.querySelector("p");
 
     const requestOptions = {
@@ -34,7 +34,14 @@ const generateResponse = (incomingChatLi, message) => {
     }
 
     fetch(API_url, requestOptions).then(res => res.json()).then(data => {
-        messageElement.textContent = data.answer;
+        response = data.answer;
+        messageElement.textContent = response;
+        if (window.MathJax) {
+            MathJax.typesetPromise([messageElement]).then(() => {
+                console.log("MathJax rendering complete");
+            });
+        }
+        
     }).catch((error) => {
         console.log(error);
         messageElement.textContent = "Uh oh, wrong data :(("
