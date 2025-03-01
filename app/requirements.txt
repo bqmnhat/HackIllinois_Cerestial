@@ -14,10 +14,7 @@ pandas
 openmeteo-requests
 Flask==3.0.3
 apscheduler
-rag_scraper
-urllib
-time
-random
-googlesearch
+ragscraper
+urllib3
+google
 rank_bm25
-re

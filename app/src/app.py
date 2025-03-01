@@ -4,7 +4,7 @@ from data_scraper import updateWeatherContext
 import files_utils as files_utils
 from apscheduler.schedulers.background import BackgroundScheduler
 from dotenv import load_dotenv
-from app.src.crawler import updateScrapeData
+from crawler import updateScrapeData
 import os
 
 load_dotenv()
@@ -20,7 +20,25 @@ def startScheduler():
 def prepareContext():
     global chatBot
     updateWeatherContext()
-    updateScrapeData()
+    updateScrapeData("Agriculture in Illinois")
+
+    context_list = ["GIVEN_CONTEXT_PATH","WEATHER_CONTEXT_PATH","SCRAPE_CONTEXT_PATH"]
+    contexts = [os.getenv(env) for env in context_list if os.getenv(env)]
+    if len(contexts) == 0:
+        raise ValueError("context file paths are not set")
+
+    
+    context_path = os.getenv("CONTEXT_PATH")
+    if not context_path:
+        raise ValueError("CONTEXT_PATH environment variable is not set")
+
+    files_utils.removeFile(context_path)
+    files_utils.concatFiles(context_path, contexts) 
+
+    chatBot = Model()
+
+def updateContext(query):
+    updateScrapeData(query)
 
     context_list = ["GIVEN_CONTEXT_PATH","WEATHER_CONTEXT_PATH","SCRAPE_CONTEXT_PATH"]
     contexts = [os.getenv(env) for env in context_list if os.getenv(env)]
@@ -55,6 +73,7 @@ def query():
             return jsonify({'error': 'Invalid JSON'}), 400
         
         question = data.get('question')
+        updateContext(question)
         answer = chatBot.ask(question)
         return jsonify({
             'question': question,
