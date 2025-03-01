@@ -107,12 +107,12 @@ def send_weather():
         category = data.get('category')
         #print(category)
         #print(today_wea_df[category] , "and ", type(today_wea_df[category]))
-        today_wea_df[category] = today_wea_df[category].astype("string")
+        #today_wea_df[category] = today_wea_df[category].astype("string")
         
-        stats = today_wea_df[category].tolist()
+        #stats = today_wea_df[category].tolist()
     
         
-        return stats
+        return "{}".format(round(today_wea_df[category]))
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
