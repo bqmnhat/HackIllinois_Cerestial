@@ -12,10 +12,12 @@ def writeFile(path, content):
     file.close()
     
 def removeFile(path):
-    if os.path.exists("demofile.txt"):
+    if os.path.exists(path):
         os.remove(path)
     
 def concatFiles(path, concat_paths):
+    print("AAAAAAAAAAAAA")
+    print(path, concat_paths)
     with open(path, "wb") as outfile:
         for file in concat_paths:
             with open(file, "rb") as infile:

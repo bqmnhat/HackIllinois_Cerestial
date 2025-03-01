@@ -19,13 +19,23 @@ def startScheduler():
     scheduler.start()
     
 def prepareContext():
-    global chatBot 
+    global chatBot
     updateWeatherContext()
-    contexts = [os.getenv(env) for env in os.getenv("CONTEXT_LIST").split(",")]
+
+    context_list = ["GIVEN_CONTEXT_PATH","WEATHER_CONTEXT_PATH"]
+    contexts = [os.getenv(env) for env in context_list if os.getenv(env)]
+    if len(contexts) == 0:
+        raise ValueError("context file paths are not set")
+
+    
     context_path = os.getenv("CONTEXT_PATH")
+    if not context_path:
+        raise ValueError("CONTEXT_PATH environment variable is not set")
+
     files_utils.removeFile(context_path)
-    files_utils.concatFiles(context_path, contexts)   
-    chatBot = Model()  
+    files_utils.concatFiles(context_path, contexts) 
+
+    chatBot = Model()
 
 def init():
     prepareContext()
