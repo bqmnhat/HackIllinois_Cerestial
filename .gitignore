@@ -1,4 +1,7 @@
 .venv
 .env
-app/__pycache__/
-app/.cache.sqlite
+app/src/__pycache__/
+app/src/.cache.sqlite
+
+app/src/.google-cookie
+app/src/.cache.sqlite

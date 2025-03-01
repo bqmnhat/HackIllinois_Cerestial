@@ -19,8 +19,8 @@ const createChatLi = (message, className) => {
 //**************************BIG PART
 const generateResponse = (incomingChatLi, message) => {
 
+    
     const API_url = "http://127.0.0.1:5000/internal/query";
-    // const API_url = "http://10.192.244.118:8127/internal/query";
     const messageElement = incomingChatLi.querySelector("p");
 
     const requestOptions = {
@@ -42,6 +42,32 @@ const generateResponse = (incomingChatLi, message) => {
     //Wow. two anonymous classes in one line
 }
 
+const getWeatherStats = () => {
+    const API_url = "http://127.0.0.1:5000/internal/weather"
+
+    const requestOptions = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            'category': 'precipitation_probability'
+        })
+    }
+
+    fetch(API_url, requestOptions).then(res => res.json()).then(data => {
+        console.log("bello!");
+        document.querySelector("h2").innerHTML = data;
+    }).catch((error) => {
+        console.log(error);
+
+    })
+
+    //window.setInterval(getWeatherStats(), 100)
+}
+
+let weatherStats = setInterval(getWeatherStats(), 1000);
+
  
 const handleChat = () => {
     userMessage = chatInput.value.trim();
@@ -58,6 +84,7 @@ const handleChat = () => {
     setTimeout(() => {
         //Chatbot think.
         const incomingChatLi = createChatLi("Hmmmm...", "incoming")
+        
         chatbox.appendChild(incomingChatLi);
         chatbox.scrollTo(0, chatbox.scrollHeight);
         generateResponse(incomingChatLi, userMessage);
