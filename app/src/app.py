@@ -8,22 +8,20 @@ from weather_today import get_today_weather
 from crawler import updateScrapeData
 import os
 import pandas as pa
-from google import genai
+import google.generativeai as genai
 
 
 load_dotenv()
 
 app = Flask(__name__)
 model = None
-client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+model_gemini = genai.GenerativeModel('gemini-2-flash')
 
 def checkForScrape(query):
-    global client
-    response = client.models.generate_content(
-        model="gemini-2.0-flash",
-        contents="Answer all my question in one word only, 'yes' or 'no'. Should you search the web for this question: " + query,
-    )
-    print(response.text == "Yes.")
+    global model_gemini
+    response = model_gemini.generate_content("Answer all my question in one word only, 'yes' or 'no'. Should you search the web for this question: " + query)
+    return(response.text == "Yes.")
 
 def startScheduler():
     scheduler = BackgroundScheduler()
