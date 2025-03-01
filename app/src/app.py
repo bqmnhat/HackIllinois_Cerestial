@@ -1,12 +1,11 @@
 from flask import Flask, request, jsonify,render_template
 from model import Model
 from data_scraper import updateWeatherContext
-import files_utils
+import files_utils as files_utils
 from apscheduler.schedulers.background import BackgroundScheduler
-import datetime
-import time
 from dotenv import load_dotenv
 from weather_today import get_today_weather
+from crawler import updateScrapeData
 import os
 import pandas as pa
 
@@ -24,8 +23,9 @@ def startScheduler():
 def prepareContext():
     global chatBot
     updateWeatherContext()
+    updateScrapeData()
 
-    context_list = ["GIVEN_CONTEXT_PATH","WEATHER_CONTEXT_PATH"]
+    context_list = ["GIVEN_CONTEXT_PATH","WEATHER_CONTEXT_PATH","SCRAPE_CONTEXT_PATH"]
     contexts = [os.getenv(env) for env in context_list if os.getenv(env)]
     if len(contexts) == 0:
         raise ValueError("context file paths are not set")
