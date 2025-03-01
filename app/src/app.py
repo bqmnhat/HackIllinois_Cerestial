@@ -8,6 +8,7 @@ from weather_today import get_today_weather
 from crawler import updateScrapeData
 import os
 import pandas as pa
+import conversation_repo
 # from google.generativeai import genai
 
 
@@ -69,12 +70,26 @@ def updateContext(query):
     chatBot = Model()
 
 def init():
+    global db
+    db = conversation_repo.DB()
     prepareContext()
     startScheduler() 
 
 @app.route("/")
 def home():
     return render_template("chatbot.html")
+
+@app.route("/internal/load_chat", methods=["GET"])
+def load_chat():
+    try:
+        n = request.args.get('n', type=int, default=10)
+
+        if n <= 0:
+            return jsonify({"error": "Invalid value for 'n', must be a positive integer."}), 400
+
+        return jsonify(db.findLastMessage(n))
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/internal/query", methods=["POST"])
 def query():
