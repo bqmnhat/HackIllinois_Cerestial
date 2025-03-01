@@ -1,6 +1,15 @@
 langchain
 openai
 tiktoken
-faiss-gpu
+faiss-cpu
 langchain_experimental
 langchain[docarray]
+requests
+bs4
+git+https://github.com/m0rp43us/openmeteopy
+requests-cache 
+retry-requests 
+numpy 
+pandas
+openmeteo-requests
+Flask==3.0.3
