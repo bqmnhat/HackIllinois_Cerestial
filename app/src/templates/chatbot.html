@@ -15,15 +15,23 @@
     <script src="{{ url_for('static', filename='script.js') }}" defer></script>
   </head>
   <body class="show-chatbot">
-    <div class="random-text">
-      <header>
-        <h2 class = "temp"> Text</h2>
-      </header>
+    <h2></h2>
+    <div class="widget-container">
+      <div class="widget-temp">
+        <img
+          class="weatherimg"
+          src="{{ url_for('static', filename='rainy.gif') }}"
+          alt="raining"
+        />
+        <h1>20°</h1>
+        <p>Chicago, Illinois</p>
+      </div>
+
+      <div class="widget-soil">
+        <p>soil</p>
+      </div>
     </div>
-    <!-- <button class="chatbot-toggler">
-      <span class="material-symbols-outlined"> mode_comment</span>
-      <span class="material-symbols-outlined"> close </span>
-    </button> -->
+
     <div class="chatbot">
       <header>
         <h2>Cerestial</h2>
@@ -32,10 +40,7 @@
       <ul class="chatbox">
         <li class="chat incoming">
           <span class="material-symbols-outlined"> potted_plant </span>
-          <p>
-            Hello! <br />
-            What can I help you with?
-          </p>
+          <p>Hello! What can I help you with?</p>
         </li>
       </ul>
       <div class="chat-input">
