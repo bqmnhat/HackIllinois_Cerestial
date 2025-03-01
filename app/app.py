@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,render_template
 from model import Model
 from data_scraper import updateWeatherContext
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -26,27 +26,26 @@ def init():
 
 @app.route("/")
 def home():
-    return "Chatbot is running!"
+    return render_template("chatbot.html")
 
 @app.route("/internal/test")
 def test_env():
     return f'context_path = {os.getenv("CONTEXT_PATH")}'
 
-@app.route("/internal/query", )
+@app.route("/internal/query", methods=["POST"])
 def query():
     try:
         data = request.get_json()
+        print("abcd")
         
         if data is None:
             return jsonify({'error': 'Invalid JSON'}), 400
         
         question = data.get('question')
-
-        # answer = chatBot.ask(question)
-        
+        answer = chatBot.ask(question)
         return jsonify({
             'question': question,
-            'answer': "answer"
+            'answer': answer
         }), 200
     except Exception as e:
         # Handle any errors gracefully

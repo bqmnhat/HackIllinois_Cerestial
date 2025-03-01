@@ -71,149 +71,34 @@ Date: 2025-03-09
   Sunshine Duration: 39902.52734375
   Precipitation: 0.0
   Max Wind Speed: 32.91982650756836
-Weather Forecast for
-Timezone: b'America/Chicago' b'GMT-6'
-Unit: Temperature - Celsius; daylight or sunshine duration - seconds; precipitation - mm; Wind Speed - m/s
-Date: 2025-02-28
-  Max Temperature: 32.9370002746582
-  Min Temperature: 20.086999893188477
-  Daylight Duration: 42693.59765625
-  Sunshine Duration: 39600.0
-  Precipitation: 0.0
-  Max Wind Speed: 16.78156089782715
-Date: 2025-03-01
-  Max Temperature: 34.7869987487793
-  Min Temperature: 21.73699951171875
-  Daylight Duration: 42739.890625
-  Sunshine Duration: 39600.0
-  Precipitation: 0.0
-  Max Wind Speed: 18.998315811157227
-Date: 2025-03-02
-  Max Temperature: 36.23699951171875
-  Min Temperature: 22.73699951171875
-  Daylight Duration: 42786.234375
-  Sunshine Duration: 39600.0
-  Precipitation: 0.0
-  Max Wind Speed: 16.923830032348633
-Date: 2025-03-03
-  Max Temperature: 38.73699951171875
-  Min Temperature: 23.48699951171875
-  Daylight Duration: 42832.5859375
-  Sunshine Duration: 39600.0
-  Precipitation: 0.0
-  Max Wind Speed: 13.783817291259766
-Date: 2025-03-04
-  Max Temperature: 37.586997985839844
-  Min Temperature: 23.036998748779297
-  Daylight Duration: 42878.921875
-  Sunshine Duration: 39845.3671875
-  Precipitation: 0.0
-  Max Wind Speed: 19.64228057861328
-Date: 2025-03-05
-  Max Temperature: 37.23699951171875
-  Min Temperature: 23.437000274658203
-  Daylight Duration: 42925.19921875
-  Sunshine Duration: 39856.43359375
-  Precipitation: 0.0
-  Max Wind Speed: 17.974781036376953
-Date: 2025-03-06
-  Max Temperature: 37.1870002746582
-  Min Temperature: 23.786998748779297
-  Daylight Duration: 42971.38671875
-  Sunshine Duration: 39867.234375
-  Precipitation: 0.0
-  Max Wind Speed: 24.985658645629883
-Date: 2025-03-07
-  Max Temperature: 34.6870002746582
-  Min Temperature: 19.4064998626709
-  Daylight Duration: 43017.4375
-  Sunshine Duration: 39877.79296875
-  Precipitation: 0.0
-  Max Wind Speed: 24.079666137695312
-Date: 2025-03-08
-  Max Temperature: 37.506500244140625
-  Min Temperature: 20.056499481201172
-  Daylight Duration: 43063.47265625
-  Sunshine Duration: 39897.2734375
-  Precipitation: 0.0
-  Max Wind Speed: 30.97255516052246
-Date: 2025-03-09
-  Max Temperature: 38.256500244140625
-  Min Temperature: 21.6564998626709
-  Daylight Duration: 43109.8046875
-  Sunshine Duration: 39902.52734375
-  Precipitation: 0.0
-  Max Wind Speed: 32.91982650756836
-Weather Forecast for
-Timezone: b'America/Chicago' b'GMT-6'
-Unit: Temperature - Celsius; daylight or sunshine duration - seconds; precipitation - mm; Wind Speed - m/s
-Date: 2025-02-28
-  Max Temperature: 32.9370002746582
-  Min Temperature: 20.086999893188477
-  Daylight Duration: 42693.59765625
-  Sunshine Duration: 39600.0
-  Precipitation: 0.0
-  Max Wind Speed: 16.78156089782715
-Date: 2025-03-01
-  Max Temperature: 34.7869987487793
-  Min Temperature: 21.73699951171875
-  Daylight Duration: 42739.890625
-  Sunshine Duration: 39600.0
-  Precipitation: 0.0
-  Max Wind Speed: 18.998315811157227
-Date: 2025-03-02
-  Max Temperature: 36.23699951171875
-  Min Temperature: 22.73699951171875
-  Daylight Duration: 42786.234375
-  Sunshine Duration: 39600.0
-  Precipitation: 0.0
-  Max Wind Speed: 16.923830032348633
-Date: 2025-03-03
-  Max Temperature: 38.73699951171875
-  Min Temperature: 23.48699951171875
-  Daylight Duration: 42832.5859375
-  Sunshine Duration: 39600.0
-  Precipitation: 0.0
-  Max Wind Speed: 13.783817291259766
-Date: 2025-03-04
-  Max Temperature: 37.586997985839844
-  Min Temperature: 23.036998748779297
-  Daylight Duration: 42878.921875
-  Sunshine Duration: 39845.3671875
-  Precipitation: 0.0
-  Max Wind Speed: 19.64228057861328
-Date: 2025-03-05
-  Max Temperature: 37.23699951171875
-  Min Temperature: 23.437000274658203
-  Daylight Duration: 42925.19921875
-  Sunshine Duration: 39856.43359375
-  Precipitation: 0.0
-  Max Wind Speed: 17.974781036376953
-Date: 2025-03-06
-  Max Temperature: 37.1870002746582
-  Min Temperature: 23.786998748779297
-  Daylight Duration: 42971.38671875
-  Sunshine Duration: 39867.234375
-  Precipitation: 0.0
-  Max Wind Speed: 24.985658645629883
-Date: 2025-03-07
-  Max Temperature: 34.6870002746582
-  Min Temperature: 19.4064998626709
-  Daylight Duration: 43017.4375
-  Sunshine Duration: 39877.79296875
-  Precipitation: 0.0
-  Max Wind Speed: 24.079666137695312
-Date: 2025-03-08
-  Max Temperature: 37.506500244140625
-  Min Temperature: 20.056499481201172
-  Daylight Duration: 43063.47265625
-  Sunshine Duration: 39897.2734375
-  Precipitation: 0.0
-  Max Wind Speed: 30.97255516052246
-Date: 2025-03-09
-  Max Temperature: 38.256500244140625
-  Min Temperature: 21.6564998626709
-  Daylight Duration: 43109.8046875
-  Sunshine Duration: 39902.52734375
-  Precipitation: 0.0
-  Max Wind Speed: 32.91982650756836
+
+Warm season agricultural plants:
+Wann Season Grasses Big Bluestem (Andropogon gerardii) Spreads by short rhizomes Somewhat bunchy Grows 6 to 9 feet tall Identification Tips: Sheath: Round to somewhat nanened, open, often purplish at the base, usually hairy Blade: Rolled in the bud shoot, silky hairs widely dispersed on the upper leaf surface Identification Tips: Little B luestem (Schizachyrium scoparium) Strong bunch grass Grows 2 to 4 feet tall Sheath: Flattened, open, often purplish at the base Blade: Folded in the bud shoot, folded along the midrib, narrow Ligule: Small membranous Ligule: Small membranous Sod forming, 3 to 6 feet tall Identification Tips: Switchgrass (Panicum virgatum) Sheath: Round, open, white 10 purplish tinged below Blade: Rolled in the bud shoot, nat up to 1/2-inch wide Ligule: Fringe of hairs with a dense mat of hairs extending onto the upper leaf surface I ndiangrass (Sorghastrum nutans) Spreads by short rhizomes, somewhat bunchy, 3 to 6 feet tall Identification Tips: Sheath: Round, open, may be hairy at the base Blade: Rolled in the bud shoot, nat, narrowed at base Ligule: Prominent, membranous, clawlike -- often referred to as a rine sight Prairie Flowers Yellow Coneflower 2-5' tall, blooms July (Ratibida pinnata) Sept., dry to moist sites, 27,000 seeds/oz Other Plants to C ons1 er . d Legumes Black-eyed Susan (Rudbeckia hirta) 2-5' tall, blooms July-Sept., prefers dry sites, l 00,000 seeds/oz. White Wild Indigo (Baptjsia lactea) 2-3' tall, blooms May June, medium to moist sites, 1585 seeds/oz. Canada Tick Trefoil 1-5' tall, blooms (Desmodium canadense) July-August, moist sites, 4,500 seeds/oz Check state plant reference manuals for species occurrence and status. Ht. in ft. Flower Color Flower Date Flowers Bergamot Butterfly Milkweed Cupplant Lead plant Purple Coneflower Rattlesnake Master Rough Blazing Star Showy Sunflower Spiderwort Stiff Goldenrod L e g umes Purple Prairie Clover 2-4' 3-6' 2-3' 2-3' 2-4' 2-6' 1-4' 3-7' 1-2' 3-4' 1-2' Roundheaded bush clover 2-4' Grasses Side-oats grama 1-3' Purple/Pink Orange Yellow Purple Purple Green Purple/Pink Yellow Purple/Blue Yellow Purple/Red White Jul/Sept Jun/Aug Jul/Sept Jun/Jul Jun/Jul Jun/Aug Aug/Sept Jul/Aug May/Jul Aug/Oct Jul/Aug Aug/Sept Jul/Aug Seeds/Oz. 78,000 3,500 1,400 17,000 4,500 8,000 13,000 4,500 8,000 45 ; 000 20,000 10,000 Preferred Site Medium to moist, deep silts Dry to medium Medium to moist Dry to medium, Sandy soil Dry to medium Medium to moist Dry to medium, Sandy soil Dry to medium, Rich deep silts Dry to moist Dry to moist Dry to medium, well drained Dry to moist Dry sites, Shallow, rocky
+
+Plants That Grow In Cold Weather: Spring Planting Cold Season Crops
+
+You don’t need to wait until high summer to get your garden going. Many vegetables grow and taste better in the cooler temperatures of spring. Certain ones, like lettuce and spinach, will bolt when the weather gets too hot and can only be grown in cool temperatures.
+
+Plants That Grow In Cold Weather
+Cool season crops germinate in cold soil and mature with cool weather and short periods of daylight, making them perfect for early spring planting.
+
+Pea, onion, and lettuce seeds will germinate as low as 35°F (1°C), meaning they can be planted as soon as the ground is unfrozen and workable. Most other cold-weather food crops will germinate in soil as cold as 40°F (4°C). These include many root vegetables and leafy greens such as:
+
+Beets
+Carrots
+Turnips
+Radishes
+Cabbage
+Collards
+Kale
+Spinach
+Swiss chard
+Arugula
+Broccoli
+Cauliflower
+Kohlrabi
+Potatoes
+Spring Planting Cold Season Crops
+Sometimes, the period between the ground becoming workable and high summer is short. To get a head start, start seeds indoors six to eight weeks before the last frost date, then transplant them when the weather is right.
+
+Many cold-weather food crops can be started indoors, but ensure you leave enough room in your garden for hot-weather plants. Cold-weather plants are often ready for harvest around the time warm-season crops can be transplanted, though an especially mild summer may allow lettuce and spinach to last longer than expected.
