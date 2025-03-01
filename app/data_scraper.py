@@ -1,18 +1,14 @@
-from openmeteopy import OpenMeteo
-from openmeteopy.options import EcmwfOptions
-from openmeteopy.hourly import HourlyEcmwf
 from openmeteopy.utils.constants import *
-import json
 import openmeteo_requests
 import requests_cache
 import pandas as pd
 from retry_requests import retry
-from files_utils import appendFile
+from files_utils import writeFile
 import os
 
 def updateWeatherContext():
     data = getWeatherContext(os.getenv("LATITUDE"), os.getenv("LONGITUDE"))
-    appendFile(os.getenv("WEATHER_CONTEXT_PATH"), data)
+    writeFile(os.getenv("WEATHER_CONTEXT_PATH"), data)
 
 def getWeatherContext(latitude, longitude):
     """

@@ -1,20 +1,13 @@
 Weather Forecast for
 Timezone: b'America/Chicago' b'GMT-6'
 Unit: Temperature - Farenheit; daylight or sunshine duration - seconds; precipitation - mm; Wind Speed - m/s
-Date: 2025-02-28
-  Max Temperature: 18.924001693725586
-  Min Temperature: 1.2739999294281006
-  Daylight Duration: 40607.87109375
-  Sunshine Duration: 36587.32421875
-  Precipitation: 0.0
-  Max Wind Speed: 36.236820220947266
 Date: 2025-03-01
-  Max Temperature: 3.2239999771118164
+  Max Temperature: 2.8239998817443848
   Min Temperature: -5.426000118255615
   Daylight Duration: 40765.671875
-  Sunshine Duration: 20349.337890625
+  Sunshine Duration: 36998.57421875
   Precipitation: 0.0
-  Max Wind Speed: 28.483259201049805
+  Max Wind Speed: 25.620771408081055
 Date: 2025-03-02
   Max Temperature: 4.874000072479248
   Min Temperature: -8.776000022888184
@@ -71,3 +64,10 @@ Date: 2025-03-09
   Sunshine Duration: 38856.3203125
   Precipitation: 0.0
   Max Wind Speed: 31.559085845947266
+Date: 2025-03-10
+  Max Temperature: 4.3979997634887695
+  Min Temperature: -4.751999855041504
+  Daylight Duration: 42180.89453125
+  Sunshine Duration: 39017.4453125
+  Precipitation: 0.0
+  Max Wind Speed: 17.208602905273438

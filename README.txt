@@ -17,9 +17,18 @@ Cerestial is built for **Hack Illinois 2025**, showcasing the potential of AI to
 
 ### Local Development Setup
 
+**Get Docker CLI**
+```
+sudo apt update
+sudo apt install ca-certificates curl gnupg lsb-release
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo chmod +x get-docker.sh
+sudo sh ./get-docker.sh --dry-run
+```
+
 **Build image**
 ```
-docker build -t cerestial .
+docker build -t cerestial ./app
 ```
 
 **Run the Docker container**

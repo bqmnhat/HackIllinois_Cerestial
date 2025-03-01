@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify,render_template
 from model import Model
 from data_scraper import updateWeatherContext
+import files_utils
 from apscheduler.schedulers.background import BackgroundScheduler
 import datetime
 import time
@@ -12,25 +13,37 @@ load_dotenv()
 app = Flask(__name__)
 model = None
 
-def start_scheduler():
+def startScheduler():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(updateWeatherContext, 'cron', hour=0, minute=0)  # 0:00 hours daily
+    scheduler.add_job(prepareContext, 'cron', hour=0, minute=0)  # 0:00 hours daily
     scheduler.start()
+    
+def prepareContext():
+    global chatBot
+    updateWeatherContext()
 
+    context_list = ["GIVEN_CONTEXT_PATH","WEATHER_CONTEXT_PATH"]
+    contexts = [os.getenv(env) for env in context_list if os.getenv(env)]
+    if len(contexts) == 0:
+        raise ValueError("context file paths are not set")
+
+    
+    context_path = os.getenv("CONTEXT_PATH")
+    if not context_path:
+        raise ValueError("CONTEXT_PATH environment variable is not set")
+
+    files_utils.removeFile(context_path)
+    files_utils.concatFiles(context_path, contexts) 
+
+    chatBot = Model()
 
 def init():
-    global chatBot  
-    chatBot = Model()
-    updateWeatherContext()  # This will run once when the Flask app starts
-    start_scheduler() 
+    prepareContext()
+    startScheduler() 
 
 @app.route("/")
 def home():
     return render_template("chatbot.html")
-
-@app.route("/internal/test")
-def test_env():
-    return f'context_path = {os.getenv("CONTEXT_PATH")}'
 
 @app.route("/internal/query", methods=["POST"])
 def query():
@@ -43,14 +56,11 @@ def query():
         
         question = data.get('question')
         answer = chatBot.ask(question)
-        print(answer)
-        # Respond with the received data or a success message
         return jsonify({
             'question': question,
             'answer': answer
         }), 200
     except Exception as e:
-        # Handle any errors gracefully
         return jsonify({'error': str(e)}), 500
 
 
