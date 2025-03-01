@@ -38,6 +38,5 @@ class Model:
         )
 
     def ask(self, query):
-        query = "Answer the questions in the most structured and organized way:" + query
         result = self.conversation_chain({"question": query}) 
         return result["answer"]   

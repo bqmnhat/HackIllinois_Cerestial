@@ -4,6 +4,12 @@ WORKDIR /app
 
 COPY . /app
 
+# RUN echo $(ls -1 /app)
+
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y git
+
 RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8127
