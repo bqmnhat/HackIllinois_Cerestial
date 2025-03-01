@@ -1,0 +1,73 @@
+Weather Forecast for
+Timezone: b'America/Chicago' b'GMT-6'
+Unit: Temperature - Farenheit; daylight or sunshine duration - seconds; precipitation - mm; Wind Speed - m/s
+Date: 2025-03-01
+  Max Temperature: 2.8239998817443848
+  Min Temperature: -5.625999927520752
+  Daylight Duration: 40765.671875
+  Sunshine Duration: 33331.18359375
+  Precipitation: 0.0
+  Max Wind Speed: 24.858253479003906
+Date: 2025-03-02
+  Max Temperature: 4.823999881744385
+  Min Temperature: -8.576000213623047
+  Daylight Duration: 40923.5234375
+  Sunshine Duration: 36250.9609375
+  Precipitation: 0.0
+  Max Wind Speed: 11.631956100463867
+Date: 2025-03-03
+  Max Temperature: 11.29800033569336
+  Min Temperature: -3.375999927520752
+  Daylight Duration: 41081.3125
+  Sunshine Duration: 22776.638671875
+  Precipitation: 0.8999999761581421
+  Max Wind Speed: 25.264202117919922
+Date: 2025-03-04
+  Max Temperature: 12.79800033569336
+  Min Temperature: 6.797999858856201
+  Daylight Duration: 41238.91796875
+  Sunshine Duration: 330.1812744140625
+  Precipitation: 19.89999771118164
+  Max Wind Speed: 42.694541931152344
+Date: 2025-03-05
+  Max Temperature: 10.597999572753906
+  Min Temperature: 0.7980000376701355
+  Daylight Duration: 41396.234375
+  Sunshine Duration: 13258.19921875
+  Precipitation: 3.0
+  Max Wind Speed: 45.50263214111328
+Date: 2025-03-06
+  Max Temperature: 6.498000144958496
+  Min Temperature: -2.002000093460083
+  Daylight Duration: 41553.1328125
+  Sunshine Duration: 38375.56640625
+  Precipitation: 0.0
+  Max Wind Speed: 32.056175231933594
+Date: 2025-03-07
+  Max Temperature: 2.5980000495910645
+  Min Temperature: -3.1019999980926514
+  Daylight Duration: 41709.5078125
+  Sunshine Duration: 15525.5087890625
+  Precipitation: 3.299999952316284
+  Max Wind Speed: 23.35842514038086
+Date: 2025-03-08
+  Max Temperature: 1.6979999542236328
+  Min Temperature: -4.9019999504089355
+  Daylight Duration: 41865.7265625
+  Sunshine Duration: 38695.84765625
+  Precipitation: 0.0
+  Max Wind Speed: 13.661038398742676
+Date: 2025-03-09
+  Max Temperature: 8.097999572753906
+  Min Temperature: -2.552000045776367
+  Daylight Duration: 42022.875
+  Sunshine Duration: 38856.3203125
+  Precipitation: 0.0
+  Max Wind Speed: 19.995399475097656
+Date: 2025-03-10
+  Max Temperature: 7.047999858856201
+  Min Temperature: 1.3980000019073486
+  Daylight Duration: 42180.89453125
+  Sunshine Duration: 39017.4453125
+  Precipitation: 0.0
+  Max Wind Speed: 29.79312515258789
