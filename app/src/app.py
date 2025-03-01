@@ -70,7 +70,6 @@ def home():
 def query():
     try:
         data = request.get_json()
-        print("abcd")
         
         if data is None:
             return jsonify({'error': 'Invalid JSON'}), 400
