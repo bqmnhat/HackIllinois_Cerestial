@@ -36,18 +36,18 @@ def test_env():
 def query():
     try:
         data = request.get_json()
+        print("abcd")
         
         if data is None:
             return jsonify({'error': 'Invalid JSON'}), 400
         
         question = data.get('question')
-
-        # answer = chatBot.ask(question)
-        
+        answer = chatBot.ask(question)
+        print(answer)
         # Respond with the received data or a success message
         return jsonify({
             'question': question,
-            'answer': "answer"
+            'answer': answer
         }), 200
     except Exception as e:
         # Handle any errors gracefully

@@ -17,7 +17,7 @@ const createChatLi = (message, className) => {
 }
 
 //**************************BIG PART
-const generateResponse = (incomingChatLi) => {
+const generateResponse = (incomingChatLi, message) => {
 
     
     const API_url = "http://127.0.0.1:5000/internal/query";
@@ -29,19 +29,12 @@ const generateResponse = (incomingChatLi) => {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            'question': messageElement.textContent
+            'question': message
          })
     }
 
     fetch(API_url, requestOptions).then(res => res.json()).then(data => {
-
-        console.log("belo");
         messageElement.textContent = data.answer;
-        //const JsonString = JSON.stringify({
-        //    'question': messageElement.textContent
-        //});
-
-
     }).catch((error) => {
         console.log(error);
         messageElement.textContent = "Uh oh, wrong data :(("
@@ -67,7 +60,7 @@ const handleChat = () => {
         const incomingChatLi = createChatLi("Hmmmm...", "incoming")
         chatbox.appendChild(incomingChatLi);
         chatbox.scrollTo(0, chatbox.scrollHeight);
-        generateResponse(incomingChatLi);
+        generateResponse(incomingChatLi, userMessage);
     }, 600)
 }
 sendChatBtn.addEventListener("click", handleChat);
