@@ -9,22 +9,25 @@ from crawler import updateScrapeData
 import os
 import pandas as pa
 import conversation_repo
-# from google.generativeai import genai
+import google.generativeai as genai
 
 
 load_dotenv()
 
 app = Flask(__name__)
 model = None
-# client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+client = genai.GenerativeModel('gemini-1.5-flash')
 
-# def checkForScrape(query):
-#     global client
-#     response = client.models.generate_content(
-#         model="gemini-2.0-flash",
-#         contents="Answer all my question in one word only, 'yes' or 'no'. Should you search the web for this question: " + query,
-#     )
-#     print(response.text == "Yes.")
+def checkForScrape(query):
+    global client
+    response = client.generate_content("Answer 'yes' if you need to search the web for additional information to answer the user's question correctly and sufficiently. Answer 'no' if the question pertains to casual conversation. " + query)
+    print(response.text)
+    yes_answers = ["Yes", "yes", "Yes.", "yes.", "YES", "YES."]
+    print((yes_answers.count(response.text.strip()) > 0))
+    if (yes_answers.count(response.text.strip()) > 0):
+        return True
+    return False
 
 def startScheduler():
     scheduler = BackgroundScheduler()
@@ -69,6 +72,12 @@ def updateContext(query):
 
     chatBot = Model()
 
+def read_file_to_text(path):
+    file = open(path, "r")
+    content = file.read()
+    file.close()
+    return content
+
 def init():
     global db
     db = conversation_repo.DB()
@@ -100,9 +109,15 @@ def query():
             return jsonify({'error': 'Invalid JSON'}), 400
         
         question = data.get('question')
-        # if (checkForScrape(question)):
-        updateContext(question)
-        answer = chatBot.ask(question)
+        answer = ""
+        if (checkForScrape(question)):
+            print("openai")
+            updateContext(question)
+            answer = chatBot.ask(question)
+            # answer = client.generate_content(read_file_to_text(os.getenv('CONTEXT_PATH')) + question).text
+        else:
+            print("gemini")            
+            answer = client.generate_content(read_file_to_text(os.getenv('GIVEN_CONTEXT_PATH')) + question).text
         return jsonify({
             'question': question,
             'answer': answer
