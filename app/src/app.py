@@ -4,7 +4,7 @@ from data_scraper import updateWeatherContext
 import files_utils as files_utils
 from apscheduler.schedulers.background import BackgroundScheduler
 from dotenv import load_dotenv
-from crawler import updateScrapeData
+from app.src.crawler import updateScrapeData
 import os
 
 load_dotenv()

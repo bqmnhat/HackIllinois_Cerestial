@@ -2,11 +2,13 @@ import urllib.request
 from urllib.error import HTTPError
 import time
 import random
+from rag_scraper.scraper import Scraper #or from your_wrapper_file import fetch_html_with_headers
 from rag_scraper.converter import Converter
 from googlesearch import search
 from rank_bm25 import BM25Okapi
 import re
 from urllib.error import HTTPError
+from urllib import parse
 import os
 
 def fetch_html_with_headers(url, headers=None):
@@ -27,7 +29,7 @@ user_agents = [
     # Add more User-Agents here
 ]
 
-def scrape_and_rank(query, num_results=10):
+def scrape_and_rank(query, filename, num_results=2):
     urls = search(query, stop=num_results)
     corpus = []
     results = []
@@ -79,7 +81,7 @@ def scrape_and_rank(query, num_results=10):
     doc_scores = bm25.get_scores(tokenized_query)
     ranked_results = sorted(zip(doc_scores, results), key=lambda x: x[0], reverse=True)
 
-    with open(os.getenv("SCRAPE_CONTEXT_PATH"), "w", encoding="utf-8") as f:
+    with open(filename, "w", encoding="utf-8") as f:
         print("Writing results to output.txt...") #Status print
         for score, result in ranked_results:
             f.write(f"URL: {result['url']}\n")
@@ -90,4 +92,4 @@ def scrape_and_rank(query, num_results=10):
 
 def updateScrapeData():
     query = "tools or resources to help farmers assess their soil's water-holding capacity"
-    scrape_and_rank(query, 5)
+    scrape_and_rank(query, os.getenv['SCRAPE_CONTEXT_PATH'], 2)
