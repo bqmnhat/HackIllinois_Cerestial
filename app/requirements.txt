@@ -18,3 +18,4 @@ ragscraper
 urllib3
 google.generativeai
 rank_bm25
+psycopg2-binary
