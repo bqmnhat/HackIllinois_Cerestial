@@ -1,4 +1,7 @@
 .venv
 .env
-app/__pycache__/app.cpython-312.pyc
-app/__pycache__/model.cpython-312.pyc
+app/src/__pycache__/
+app/src/.cache.sqlite
+
+app/src/.google-cookie
+app/src/.cache.sqlite
