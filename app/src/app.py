@@ -8,22 +8,22 @@ from weather_today import get_today_weather
 from crawler import updateScrapeData
 import os
 import pandas as pa
-from google import genai
+# from google.generativeai import genai
 
 
 load_dotenv()
 
 app = Flask(__name__)
 model = None
-client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
+# client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
 
-def checkForScrape(query):
-    global client
-    response = client.models.generate_content(
-        model="gemini-2.0-flash",
-        contents="Answer all my question in one word only, 'yes' or 'no'. Should you search the web for this question: " + query,
-    )
-    print(response.text == "Yes.")
+# def checkForScrape(query):
+#     global client
+#     response = client.models.generate_content(
+#         model="gemini-2.0-flash",
+#         contents="Answer all my question in one word only, 'yes' or 'no'. Should you search the web for this question: " + query,
+#     )
+#     print(response.text == "Yes.")
 
 def startScheduler():
     scheduler = BackgroundScheduler()
@@ -85,8 +85,8 @@ def query():
             return jsonify({'error': 'Invalid JSON'}), 400
         
         question = data.get('question')
-        if (checkForScrape(question)):
-            updateContext(question)
+        # if (checkForScrape(question)):
+        updateContext(question)
         answer = chatBot.ask(question)
         return jsonify({
             'question': question,
