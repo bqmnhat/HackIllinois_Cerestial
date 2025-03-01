@@ -1,10 +1,13 @@
 services:
   web:
-    build: ./app
+    build:
+      context: ./app
     ports:
       - "8127:5000"
     environment:
       FLASK_APP: app.py
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
     depends_on:
       db:
         condition: service_healthy  # Ensures that the web service waits until db is healthy
@@ -31,6 +34,8 @@ services:
     restart: always
     networks:
       - default
+
+
 
 volumes:
   db_data: 

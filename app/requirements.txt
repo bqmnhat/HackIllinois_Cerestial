@@ -19,4 +19,5 @@ urllib3
 google.generativeai
 psycopg2-binary
 rank_bm25
+google
 googlesearch-python
