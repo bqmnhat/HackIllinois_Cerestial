@@ -19,15 +19,15 @@ def startScheduler():
     scheduler.start()
     
 def prepareContext():
+    global chatBot 
     updateWeatherContext()
-    contexts = os.getenv("CONTEXT_LIST").split(",")
+    contexts = [os.getenv(env) for env in os.getenv("CONTEXT_LIST").split(",")]
     context_path = os.getenv("CONTEXT_PATH")
     files_utils.removeFile(context_path)
-    files_utils.concatFiles(context_path, contexts)    
+    files_utils.concatFiles(context_path, contexts)   
+    chatBot = Model()  
 
 def init():
-    global chatBot  
-    chatBot = Model()
     prepareContext()
     startScheduler() 
 

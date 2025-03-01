@@ -3,12 +3,12 @@ import openmeteo_requests
 import requests_cache
 import pandas as pd
 from retry_requests import retry
-from files_utils import getFile
+from files_utils import writeFile
 import os
 
 def updateWeatherContext():
     data = getWeatherContext(os.getenv("LATITUDE"), os.getenv("LONGITUDE"))
-    getFile(os.getenv("WEATHER_CONTEXT_PATH"), data)
+    writeFile(os.getenv("WEATHER_CONTEXT_PATH"), data)
 
 def getWeatherContext(latitude, longitude):
     """
