@@ -9,7 +9,7 @@ const createChatLi = (message, className) => {
     //Create a chat <li> element with passed message and className
     const chatLi = document.createElement("li");
     chatLi.classList.add("chat", className);
-    let chatContent = className === "outgoing" ? `<p></p>` : `<span class="material-symbols-outlined">smart_toy</span> <p></p>`;
+    let chatContent = className === "outgoing" ? `<p></p>` : `<span class="material-symbols-outlined">potted_plant</span> <p></p>`;
     chatLi.innerHTML = chatContent;
     //Prevent HTML input
     chatLi.querySelector("p").textContent = message;
