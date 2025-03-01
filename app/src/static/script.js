@@ -19,7 +19,7 @@ const createChatLi = (message, className) => {
 //**************************BIG PART
 const generateResponse = (incomingChatLi, message) => {
 
-    const API_url = "http://localhost:5000/internal/query";
+    const API_url = "/internal/query";
     // const API_url = "http://10.192.244.118:8127/internal/query";
     const messageElement = incomingChatLi.querySelector("p");
 

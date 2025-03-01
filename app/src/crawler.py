@@ -92,4 +92,4 @@ def scrape_and_rank(query, filename, num_results=2):
 
 def updateScrapeData():
     query = "tools or resources to help farmers assess their soil's water-holding capacity"
-    scrape_and_rank(query, os.getenv['SCRAPE_CONTEXT_PATH'], 2)
+    scrape_and_rank(query, os.getenv('SCRAPE_CONTEXT_PATH'), 2)

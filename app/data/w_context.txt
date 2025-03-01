@@ -3,21 +3,21 @@ Timezone: b'America/Chicago' b'GMT-6'
 Unit: Temperature - Farenheit; daylight or sunshine duration - seconds; precipitation - mm; Wind Speed - m/s
 Date: 2025-03-01
   Max Temperature: 2.8239998817443848
-  Min Temperature: -5.625999927520752
+  Min Temperature: -5.426000118255615
   Daylight Duration: 40765.671875
-  Sunshine Duration: 33331.18359375
+  Sunshine Duration: 37051.66015625
   Precipitation: 0.0
-  Max Wind Speed: 24.858253479003906
+  Max Wind Speed: 24.28866195678711
 Date: 2025-03-02
-  Max Temperature: 4.823999881744385
-  Min Temperature: -8.576000213623047
+  Max Temperature: 4.173999786376953
+  Min Temperature: -8.62600040435791
   Daylight Duration: 40923.5234375
-  Sunshine Duration: 36250.9609375
+  Sunshine Duration: 36356.88671875
   Precipitation: 0.0
-  Max Wind Speed: 11.631956100463867
+  Max Wind Speed: 10.948972702026367
 Date: 2025-03-03
   Max Temperature: 11.29800033569336
-  Min Temperature: -3.375999927520752
+  Min Temperature: -4.22599983215332
   Daylight Duration: 41081.3125
   Sunshine Duration: 22776.638671875
   Precipitation: 0.8999999761581421
