@@ -1,6 +1,6 @@
 import psycopg2
 from datetime import datetime
-import socket
+import os
 
 class Message:
     def __init__(self, array):
@@ -19,10 +19,7 @@ class Message:
 
 class DB:
     def __init__(self):
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))
-        self.conn = psycopg2.connect(database="mydatabase", user="myuser", password="mypassword", host=s.getsockname()[0], port=8269)
-        s.close()
+        self.conn = psycopg2.connect(database="mydatabase", user="myuser", password="mypassword", host='db', port=5432)
         
     def findLastMessage(self, n):
         curs = self.conn.cursor()

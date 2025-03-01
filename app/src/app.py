@@ -16,7 +16,7 @@ load_dotenv()
 
 app = Flask(__name__)
 model = None
-genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 client = genai.GenerativeModel('gemini-1.5-flash')
 
 def checkForScrape(query):
