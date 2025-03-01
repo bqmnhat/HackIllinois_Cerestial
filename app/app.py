@@ -6,7 +6,10 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import datetime
 import time
 from dotenv import load_dotenv
+from weather_today import get_today_weather
 import os
+import pandas as pa
+
 
 load_dotenv()
 
@@ -62,7 +65,27 @@ def query():
         }), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
+    
+@app.route("/internal/weather", methods=["POST"])
+def send_weather():
+    today_wea_df = get_today_weather()
+    try:
+        data = request.get_json()
+        
+        if data is None:
+            return jsonify({'error': 'Invalid JSON'}), 400
+        
+        category = data.get('category')
+        #print(category)
+        #print(today_wea_df[category] , "and ", type(today_wea_df[category]))
+        today_wea_df[category] = today_wea_df[category].astype("string")
+        
+        stats = today_wea_df[category].tolist()
+    
+        
+        return stats
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 init()
 
