@@ -23,7 +23,7 @@ class DB:
         
     def findLastMessage(self, n):
         curs = self.conn.cursor()
-        query = "SELECT * FROM (SELECT * FROM CONVERSATION ORDER BY %s DESC LIMIT 10) sub ORDER BY id ASC;"
+        query = "SELECT * FROM (SELECT * FROM CONVERSATION ORDER BY id DESC LIMIT (%s)) sub ORDER BY id ASC;"
         curs.execute(query, (n))
         messages = curs.fetchall()
         curs.close()
