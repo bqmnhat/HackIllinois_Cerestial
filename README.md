@@ -48,10 +48,10 @@ docker compose up
 - **Dual Bot Architecture**: Routes queries to specialized bots for more accurate responses to different types of agricultural questions.
 
 ### Contributors:
-- [Contributor Name 1] - [Role/Contribution]
+- Nhat Bui Quoc Minh - Backend Development, RAG Model Development, Web Crawling
 - Tuan Nguyen Ngo Anh - Frontend Features, Backend Development, Deploying Pipeline
-- [Contributor Name 3] - [Role/Contribution]
-- [Contributor Name 4] - [Role/Contribution]
+- Tuan Anh Nguyen - Frontend Development, Frontend-Backend Integration, Responsive UI Design
+- Ektarit Nophaket - Frontend Development, Frontend Design
 
 Built for Hack Illinois 2025, powered by ACM@UIUC
 
