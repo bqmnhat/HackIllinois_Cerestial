@@ -17,6 +17,8 @@ body{
 
 .widget-temp {
     border-radius: 15px;
+    border-style: solid;
+  border-color: green;
     box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
                 0 32px 64px -48px rgba(0, 0, 0, 0.1);
     background: none;
@@ -33,6 +35,8 @@ body{
 
 }
 .widget-soil {
+    border-style: solid;
+  border-color: green;
     border-radius: 15px;
     box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
                 0 32px 64px -48px rgba(0, 0, 0, 0.1);
@@ -54,13 +58,23 @@ body{
     padding: 30px;
     font-size: 60px;
 }
+.widget-temp .material-symbols-outlined {
+    right: 18px;
+    position: relative;
+    text-align: center;
+    color: white;
+    top: 200px;
+    float: right;
+}
+
 
 .widget-temp p {
-
-    position: absolute;
+    right: 20px;
+    position: relative;
     text-align: center;
-    color:white;
-    top: 300px;
+    color: white;
+    top: 200px;
+    float: right;
     
 }
 
@@ -68,7 +82,8 @@ body{
     width: 100px;
     position: relative;
     float:right;
-    top:0;
+    top: 10px;
+    right: 20px
 }
 /* button*/
 .chatbot-toggler {

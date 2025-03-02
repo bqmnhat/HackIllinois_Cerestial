@@ -146,9 +146,12 @@ const drawGraph = (xValues, yValues, graph) => {
         data: {
             labels: xValues,
             datasets: [{
+                label: "Temperature Today",
                 backgroundColor: "rgba(0, 0, 255, 1.0)",
                 fill: false,
-                borderColor: "rgba(0, 0, 255, 1.0)",
+                borderColor: "rgba(255, 255, 255, 1.0)",
+                pointBackgroundColor: "white",  
+                pointBorderColor: "white",
                 data: yValues
             }]
         },
@@ -157,21 +160,38 @@ const drawGraph = (xValues, yValues, graph) => {
                 x: {
                     ticks: {
                         color: "black"
+                    },
+                    grid: {
+                      color: "black"       
+                    },
+                    border: {
+                      color: "black"
                     }
                     
                 },
                 y: {
                     ticks: {
                         color: "black"
-                    }
+                    },
+                    grid: {
+                        color: "black"       
+                      },
+                      border: {
+                        color: "black"
+                      }
                 }
 
             }
-            //legend: {display: false},
-            //scales: {
-            //    yAxes: [{ticks: {min: -10, max: 10}}],
-            //}
-        }
+             
+        },
+        plugins: {
+            legend: {
+              labels: {
+                usePointStyle: true,  
+                color: "black"        
+              }
+            }
+          }
     });
 
     //chart.render()
