@@ -104,11 +104,11 @@ def load_chat():
 def query():
     try:
         data = request.get_json()
-        
         if data is None:
             return jsonify({'error': 'Invalid JSON'}), 400
         
         question = data.get('question')
+        db.insertMessage(False, question)
         answer = ""
         if (checkForScrape(question)):
             print("openai")
@@ -118,6 +118,7 @@ def query():
         else:
             print("gemini")            
             answer = client.generate_content(read_file_to_text(os.getenv('GIVEN_CONTEXT_PATH')) + question).text
+        db.insertMessage(True, answer)
         return jsonify({
             'question': question,
             'answer': answer

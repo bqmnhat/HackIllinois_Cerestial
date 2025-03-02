@@ -1,42 +1,23 @@
-DO
-$do$
-BEGIN
-   -- Check if the database exists, and drop it if it does
-   IF EXISTS (
-      SELECT FROM pg_catalog.pg_database WHERE datname = 'mydatabase'
-   ) THEN
-      EXECUTE 'DROP DATABASE IF EXISTS mydatabase';
-   END IF;
+-- Create user with password and database creation privileges
+CREATE USER myuser WITH PASSWORD 'mypassword';
 
-   -- Create the database
-   EXECUTE 'CREATE DATABASE mydatabase';
-END
-$do$;
+-- Create database
+CREATE DATABASE mydatabase;
 
-\c mydatabase
-
--- Create user separately (drop and recreate if necessary)
-DO
-$do$
-BEGIN
-   IF EXISTS (
-      SELECT FROM pg_catalog.pg_roles WHERE rolname = 'myuser'
-   ) THEN
-      EXECUTE 'DROP USER IF EXISTS myuser';
-   END IF;
-
-   -- Create user with a password
-   EXECUTE 'CREATE USER myuser WITH ENCRYPTED PASSWORD ''mypassword''';
-END
-$do$;
-
--- Grant privileges to the user
+-- Grant privileges to the user on the database
 GRANT ALL PRIVILEGES ON DATABASE mydatabase TO myuser;
 
--- Create CONVERSATION table if it does not exist
-CREATE TABLE IF NOT EXISTS CONVERSATION (
+-- Connect to the newly created database
+\c mydatabase
+
+-- Create conversation table
+CREATE TABLE CONVERSATION (
     id SERIAL PRIMARY KEY,
     isBot BOOLEAN NOT NULL,
     message TEXT NOT NULL,
-    time TIMESTAMP
+    time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Grant privileges on the table to the user
+GRANT ALL PRIVILEGES ON TABLE CONVERSATION TO myuser;
+GRANT USAGE, SELECT ON SEQUENCE conversation_id_seq TO myuser;
