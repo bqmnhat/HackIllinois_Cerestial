@@ -58,7 +58,7 @@ const getWeatherStats = () => {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            'category': 'precipitation_probability'
+            'category': 'temperature_2m'
         })
     }
 
