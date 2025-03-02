@@ -1,6 +1,8 @@
 const chatInput = document.querySelector(".chat-input textarea");
 const sendChatBtn = document.querySelector(".chat-input span");
 const chatbox = document.querySelector(".chatbox");
+const UIToggler = document.querySelector(".UI-toggler");
+const chatbot = document.querySelector(".chatbot");
 
 let userMessage;
 let page = 0;
@@ -268,6 +270,20 @@ const handleChat = () => {
         generateResponse(incomingChatLi, userMessage);
     }, 600)
 }
+
+const widgetContainer = document.querySelector(".widget-container"); // Select the div to toggle
+
+if (UIToggler && widgetContainer) {
+    UIToggler.addEventListener("click", () => {
+      widgetContainer.classList.toggle("show-widget");
+      chatbot.classList.toggle("blurred"); // Add blur effect
+    });
+  } else {
+    console.error("UI-toggler or widget-container not found");
+  }
+
+
+
 sendChatBtn.addEventListener("click", handleChat);
 
 chatInput.addEventListener("keydown", check_handle);
