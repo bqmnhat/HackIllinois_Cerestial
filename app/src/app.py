@@ -139,18 +139,18 @@ def weather():
         category = data.get('category')
         #print(category)
         #print(today_wea_df[category] , "and ", type(today_wea_df[category]))
-        # day_weather[category] = day_weather[category].astype("string")
+        day_weather[category] = day_weather[category].astype(str)
         
         #stats = today_wea_df[category].tolist()
-    
+        print(day_weather[category])
         current = round(current_weather[category])
-        # day = day_weather[category].toList()
+        dw_list = day_weather[category].values.tolist()
 
         # stats = {'current_weather': current, 'day': day}
         # print(stats)
-        
+        json_response = jsonify({'current_weather': current, 'day': dw_list})
         # return jsonify(stats)
-        return jsonify({'current_weather': current})
+        return json_response
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
