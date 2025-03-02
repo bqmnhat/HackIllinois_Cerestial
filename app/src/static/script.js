@@ -117,6 +117,8 @@ const getWeatherStats = () => {
         })
     }
 
+    getWeatherCode();
+
     fetch(API_url, requestOptions).then(res => res.json()).then(data => {
         console.log("bello!");
         current_weather = data.current_weather;
@@ -131,11 +133,94 @@ const getWeatherStats = () => {
             drawGraph(xValues, day, graph);
         }
 
-        
 
     }).catch((error) => {
         console.log(error);
 
+    })
+
+    //window.setInterval(getWeatherStats(), 100)
+}
+
+// let weather_dictionary = {'0': "{{url_for('static',filename='sunny.gif')}}", 
+//     '1': "{{url_for('static',filename='sunny.gif')}}", 
+//     '2': "{{url_for('static',filename='sunny.gif')}}", 
+//     '3': "{{url_for('static',filename='sunny.gif')}}",
+//     '45': "..\\static\\cloudy.gif", 
+//     '48': "..\\static\\cloudy.gif",
+//     '51': "..\\static\\cloudy.gif", 
+//     '53': "..\\static\\cloudy.gif", 
+//     '55': "..\\static\\cloudy.gif",
+//     '56': "..\\static\\snowy.gif",
+//     '57': "..\\static\\snowy.gif",
+//     '61': "..\\static\\rainy.gif", 
+//     '63': "..\\static\\rainy.gif", 
+//     '65': "..\\static\\rainy.gif",	
+//     '66': "..\\static\\rainy.gif", 
+//     '67': "..\\static\\rainy.gif",
+//     '71': "..\\static\\snowy.gif",
+//     '73': "..\\static\\snowy.gif", 
+//     '75': "..\\static\\snowy.gif",
+//     '77': "..\\static\\snowy.gif",
+//     '80': "..\\static\\rainy.gif", 
+//     '81': "..\\static\\rainy.gif", 
+//     '82': "..\\static\\rainy.gif",
+//     '85': "..\\static\\snowy.gif",
+//     '86': "..\\static\\snowy.gif",
+//     '95': "..\\static\\rainy.gif",
+//     '96': "..\\static\\rainy.gif", 
+//     '99': "..\\static\\rainy.gif"}
+
+let weather_dictionary = {'0': "..\\static\\sunny.gif", 
+    '1': "..\\static\\sunny.gif", 
+    '2': "..\\static\\sunny.gif", 
+    '3': "..\\static\\sunny.gif",
+    '45': "..\\static\\cloudy.gif", 
+    '48': "..\\static\\cloudy.gif",
+    '51': "..\\static\\cloudy.gif", 
+    '53': "..\\static\\cloudy.gif", 
+    '55': "..\\static\\cloudy.gif",
+    '56': "..\\static\\snowy.gif",
+    '57': "..\\static\\snowy.gif",
+    '61': "..\\static\\rainy.gif", 
+    '63': "..\\static\\rainy.gif", 
+    '65': "..\\static\\rainy.gif",	
+    '66': "..\\static\\rainy.gif", 
+    '67': "..\\static\\rainy.gif",
+    '71': "..\\static\\snowy.gif",
+    '73': "..\\static\\snowy.gif", 
+    '75': "..\\static\\snowy.gif",
+    '77': "..\\static\\snowy.gif",
+    '80': "..\\static\\rainy.gif", 
+    '81': "..\\static\\rainy.gif", 
+    '82': "..\\static\\rainy.gif",
+    '85': "..\\static\\snowy.gif",
+    '86': "..\\static\\snowy.gif",
+    '95': "..\\static\\rainy.gif",
+    '96': "..\\static\\rainy.gif", 
+    '99': "..\\static\\rainy.gif"}
+
+const getWeatherCode = () => {
+    const API_url = "/internal/weather"
+
+    const requestOptions = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            'category': 'weather_code'
+        })
+    }
+
+    fetch(API_url, requestOptions).then(res => res.json()).then(data => {
+        console.log("bello!");
+        current_weather = data.current_weather;
+        day = data.day;
+        console.log(current_weather);
+        document.getElementsByClassName("weatherimg")[0].src=weather_dictionary[current_weather]
+    }).catch((error) => {
+        console.log(error);
     })
 
     //window.setInterval(getWeatherStats(), 100)
