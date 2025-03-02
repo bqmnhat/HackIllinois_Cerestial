@@ -42,6 +42,13 @@ const generateResponse = (incomingChatLi, message) => {
                 console.log("MathJax rendering complete");
             });
         }
+        setTimeout( () => {
+            sendChatBtn.disabled = false;
+            chatInput.disabled = false;
+            sendChatBtn.addEventListener("click", handleChat);
+            chatInput.addEventListener("keydown", check_handle);
+            chatInput.focus(); 
+        }, 600)
         
     }).catch((error) => {
         console.log(error);
@@ -132,6 +139,10 @@ const handleChat = () => {
     userMessage = chatInput.value.trim();
     console.log(userMessage); //Important.
     if (!userMessage) return;
+    sendChatBtn.disabled = true;
+    chatInput.blur(); 
+    sendChatBtn.removeEventListener("click", handleChat);
+    chatInput.removeEventListener("keydown", check_handle);
     chatInput.value = ""; //Delete chat once sent
     
     //Append user's message to chatbox 
@@ -143,7 +154,6 @@ const handleChat = () => {
     setTimeout(() => {
         //Chatbot think.
         const incomingChatLi = createChatLi("Hmmmm...", "incoming")
-        
         chatbox.appendChild(incomingChatLi);
         chatbox.scrollTo(0, chatbox.scrollHeight);
         generateResponse(incomingChatLi, userMessage);
@@ -151,9 +161,11 @@ const handleChat = () => {
 }
 sendChatBtn.addEventListener("click", handleChat);
 
-chatInput.addEventListener("keydown", function(event) {
+chatInput.addEventListener("keydown", check_handle);
+
+function check_handle(event) {
     if (event.key === "Enter") {
         event.preventDefault();
         handleChat();
     }
-});
+}
