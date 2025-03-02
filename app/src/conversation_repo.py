@@ -116,7 +116,7 @@ class DB:
     def findLastMessages(self, n, page, max_id):
         curs = self.conn.cursor()
         offset = page * n
-        query = "SELECT * FROM conversation WHERE id < %s ORDER BY id DESC OFFSET %s ROWS LIMIT %s;"
+        query = "SELECT * FROM conversation WHERE id <= %s ORDER BY id DESC OFFSET %s ROWS LIMIT %s;"
         curs.execute(query, (max_id, offset, n))
         messages = curs.fetchall()
         curs.close()
