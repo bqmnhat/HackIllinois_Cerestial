@@ -24,14 +24,17 @@
     <!-- <p id="temp">Nom</p> -->
 
     <div class="widget-container">
-      <div class="widget-temp">
-        <img
-          class="weatherimg"
-          src="{{ url_for('static', filename='rainy.gif') }}"
-          alt="raining"
-        />
-        <h1 id = "temperature">N/a</h1>
-        <p>Chicago, Illinois</p>
+      <div class="scrollable-widget">
+        <div class="widget-temp active" id="slide1">
+          <img
+            class="weatherimg"
+            src="{{ url_for('static', filename='rainy.gif') }}"
+            alt="raining"
+          />
+          <h1>20°</h1>
+          <p>Chicago, Illinois</p>
+        </div>
+        <div class="widget-temp" id="slide2"></div>
       </div>
 
       <div class="widget-soil">

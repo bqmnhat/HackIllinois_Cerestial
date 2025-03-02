@@ -1,6 +1,11 @@
 const chatInput = document.querySelector(".chat-input textarea");
 const sendChatBtn = document.querySelector(".chat-input span");
 const chatbox = document.querySelector(".chatbox");
+const widget = document.getElementById('scrollable-widget');
+const slides = widget.querySelectorAll('.widget-temp');
+let currentSlide = 0;
+const threshold = 50;
+
 
 let userMessage;
 const API_KEY = "";
@@ -149,6 +154,31 @@ const handleChat = () => {
         generateResponse(incomingChatLi, userMessage);
     }, 600)
 }
+
+widget.addEventListener('wheel', (event) => {
+    // Prevent default scroll behavior if you want to control the interaction completely
+    event.preventDefault();
+  
+    if (event.deltaY > threshold) {
+      // Scroll down detected: show next slide if it exists
+      if (currentSlide < slides.length - 1) {
+        slides[currentSlide].classList.remove('active');
+        currentSlide++;
+        slides[currentSlide].classList.add('active');
+      }
+    } else if (event.deltaY < -threshold) {
+      // Scroll up detected: show previous slide if it exists
+      if (currentSlide > 0) {
+        slides[currentSlide].classList.remove('active');
+        currentSlide--;
+        slides[currentSlide].classList.add('active');
+      }
+    }
+  });
+
+
+
+
 sendChatBtn.addEventListener("click", handleChat);
 
 chatInput.addEventListener("keydown", function(event) {
