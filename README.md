@@ -49,7 +49,7 @@ docker compose up
 
 ### Contributors:
 - [Contributor Name 1] - [Role/Contribution]
-- [Contributor Name 2] - [Role/Contribution]
+- Tuan Nguyen Ngo Anh - Frontend Features, Backend Development, Deploying Pipeline
 - [Contributor Name 3] - [Role/Contribution]
 - [Contributor Name 4] - [Role/Contribution]
 
