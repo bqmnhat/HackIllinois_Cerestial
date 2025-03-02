@@ -14,8 +14,8 @@ url = "https://api.open-meteo.com/v1/forecast"
 params = {
     "latitude": 40,
     "longitude": -88,
-    "current": ["temperature_2m", "relative_humidity_2m", "is_day", "precipitation", "rain", "snowfall", "wind_speed_10m"],
-    "hourly": ["temperature_2m", "precipitation_probability", "snowfall", "cloud_cover", "wind_speed_80m", "soil_temperature_18cm", "soil_moisture_3_to_9cm"],
+    "current": ["temperature_2m", "relative_humidity_2m", "is_day", "precipitation", "rain", "snowfall", "wind_speed_10m", "weather_code"],
+    "hourly": ["temperature_2m", "precipitation_probability", "snowfall", "cloud_cover", "wind_speed_80m", "soil_temperature_18cm", "soil_moisture_3_to_9cm", "weather_code"],
     "timezone": "America/Chicago",
     "forecast_days": 1
 }
@@ -48,6 +48,8 @@ def get_current_weather():
     current_snowfall = current.Variables(5).Value()
     
     current_wind_speed_10m = current.Variables(6).Value()
+    
+    current_weather_code = current.Variables(7).Value()
 
     current_weather_dict = {
     "temperature_2m": current_temperature_2m,
@@ -56,7 +58,8 @@ def get_current_weather():
     "precipitation": current_precipitation,
     "rain": current_rain,
     "snowfall": current_snowfall,
-    "wind_speed_10m": current_wind_speed_10m
+    "wind_speed_10m": current_wind_speed_10m,
+    "weather_code": current_weather_code
     }
 
     #current_dataframe = pd.DataFrame(data = current_weather_dict)
@@ -92,6 +95,7 @@ def get_24h_weather():
     hourly_wind_speed_80m = hourly.Variables(4).ValuesAsNumpy()
     hourly_soil_temperature_18cm = hourly.Variables(5).ValuesAsNumpy()
     hourly_soil_moisture_3_to_9cm = hourly.Variables(6).ValuesAsNumpy()
+    hourly_weather_code = hourly.Variables(7).ValuesAsNumpy()
 
     hourly_data = {"date": pd.date_range(
         start = pd.to_datetime(hourly.Time(), unit = "s", utc = True),
@@ -107,6 +111,7 @@ def get_24h_weather():
     hourly_data["wind_speed_80m"] = hourly_wind_speed_80m
     hourly_data["soil_temperature_18cm"] = hourly_soil_temperature_18cm
     hourly_data["soil_moisture_3_to_9cm"] = hourly_soil_moisture_3_to_9cm
+    hourly_data["weather_code"] = hourly_weather_code
 
     hourly_dataframe = pd.DataFrame(data = hourly_data)
     return hourly_dataframe
