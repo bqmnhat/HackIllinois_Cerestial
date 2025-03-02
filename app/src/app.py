@@ -4,7 +4,7 @@ from data_scraper import updateWeatherContext
 import files_utils as files_utils
 from apscheduler.schedulers.background import BackgroundScheduler
 from dotenv import load_dotenv
-from weather_today import get_today_weather
+from weather_today import get_current_weather, get_24h_weather
 from crawler import updateScrapeData
 import os
 import pandas as pa
@@ -127,8 +127,9 @@ def query():
         return jsonify({'error': str(e)}), 500
     
 @app.route("/internal/weather", methods=["POST"])
-def send_weather():
-    today_wea_df = get_today_weather()
+def weather():
+    current_weather = get_current_weather()
+    day_weather = get_24h_weather()
     try:
         data = request.get_json()
         
@@ -138,12 +139,18 @@ def send_weather():
         category = data.get('category')
         #print(category)
         #print(today_wea_df[category] , "and ", type(today_wea_df[category]))
-        #today_wea_df[category] = today_wea_df[category].astype("string")
+        # day_weather[category] = day_weather[category].astype("string")
         
         #stats = today_wea_df[category].tolist()
     
+        current = round(current_weather[category])
+        # day = day_weather[category].toList()
+
+        # stats = {'current_weather': current, 'day': day}
+        # print(stats)
         
-        return "{}".format(round(today_wea_df[category]))
+        # return jsonify(stats)
+        return jsonify({'current_weather': current})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
