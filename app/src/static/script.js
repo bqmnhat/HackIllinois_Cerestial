@@ -4,6 +4,9 @@ const chatbox = document.querySelector(".chatbox");
 
 let userMessage;
 let page = 0;
+let last_id;
+
+
 
 const getLastId = async () => {
     const API_URL = "/internal/get_count";
@@ -16,13 +19,24 @@ const getLastId = async () => {
         }
     
         const data = await response.json();
-        page = 
+        last_id = data.count
+
+        const chatDiv = document.createElement("div");
+        chatDiv.className += " start_session";
+        chatDiv.textContent = "Session started."
+        chatbox.appendChild(chatDiv);
+
+        if (last_id == 0) {
+            chatbox.appendChild(createChatLi(
+                "Hello! What can I help you with?", "incoming", new Date()));
+        }
       } catch (error) {
         console.error("Error getting last message's id:", error);
       }
 }
 
-const last_id = getLastId()
+getLastId();
+
 const createChatLi = (message, className, time) => {
     // Create a chat <li> element with passed message and className
     const chatLi = document.createElement("li");
@@ -159,11 +173,12 @@ const drawGraph = (xValues, yValues, graph) => {
 let weatherStats = setInterval(getWeatherStats(), 1000);
 
 function formatDateToCustomFormat(jsDate) {
-    const hours = jsDate.getHours().toString().padStart(2, '0'); // Ensure two digits
-    const minutes = jsDate.getMinutes().toString().padStart(2, '0'); // Ensure two digits
+    // Use getUTCHours() to avoid timezone issues and keep consistent with UTC time
+    const hours = jsDate.getHours().toString().padStart(2, '0'); // 24-hour format
+    const minutes = jsDate.getMinutes().toString().padStart(2, '0'); // Ensure two digits for minutes
     const month = (jsDate.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-based
-    const day = jsDate.getDate().toString().padStart(2, '0');
-    const year = jsDate.getFullYear().toString().slice(2); // Get last two digits of the year
+    const day = jsDate.getDate().toString().padStart(2, '0'); // Ensure two digits for day
+    const year = jsDate.getFullYear().toString().slice(-2); // Get last two digits of the year
     
     return `${hours}:${minutes} ${month}/${day}/${year}`;
 }
@@ -186,10 +201,12 @@ const loadChat = async () => {
         return;
     }
     for (const message of messages) {  
+        let date = new Date(message.time)
+        date.setHours(date.getHours() - 6);
         if (message.isBot == "True") {  
-            chatbox.insertBefore(createChatLi(message.message, "incoming", new Date(message.time)), chatbox.firstChild); 
+            chatbox.insertBefore(createChatLi(message.message, "incoming", date), chatbox.firstChild); 
         } else {
-            chatbox.insertBefore(createChatLi(message.message, "outgoing", new Date(message.time)), chatbox.firstChild);
+            chatbox.insertBefore(createChatLi(message.message, "outgoing", date), chatbox.firstChild);
         }
     }
     page += 1;
@@ -257,3 +274,4 @@ function check_not_top() {
 }
 
 loadChat()
+chatbox.scrollTo(0, chatbox.scrollHeight);

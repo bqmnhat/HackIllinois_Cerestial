@@ -106,8 +106,8 @@ def load_chat():
         if page < 0:
             return jsonify({"error": "Invalid value for 'page', must be a non negative integer."}), 400
         
-        if max_id <= 0:
-            return jsonify({"error": "Invalid value for 'max_id', must be a positive integer."}), 400
+        if max_id < 0:
+            return jsonify({"error": "Invalid value for 'max_id', must be a non negative integer."}), 400
 
         return jsonify({"messages": db.findLastMessages(n, page, max_id)})
     except Exception as e:

@@ -2,6 +2,7 @@ import psycopg2
 from datetime import datetime
 import os
 import time
+import pytz
 
 class Message:
     def __init__(self, array):
