@@ -10,6 +10,7 @@ import os
 import pandas as pa
 import conversation_repo
 import google.generativeai as genai
+import asyncio
 
 
 load_dotenv()
@@ -70,7 +71,7 @@ def updateContext(query):
     files_utils.removeFile(context_path)
     files_utils.concatFiles(context_path, contexts) 
 
-    chatBot = Model()
+    chatBot.create_conversation_chain()
 
 def read_file_to_text(path):
     file = open(path, "r")
@@ -116,8 +117,9 @@ def query():
             answer = chatBot.ask(question)
             # answer = client.generate_content(read_file_to_text(os.getenv('CONTEXT_PATH')) + question).text
         else:
-            print("gemini")            
-            answer = client.generate_content(read_file_to_text(os.getenv('GIVEN_CONTEXT_PATH')) + question).text
+            print("gemini")    
+            hist = asyncio.run(chatBot.get_messages_as_str())    
+            answer = client.generate_content(hist + read_file_to_text(os.getenv('GIVEN_CONTEXT_PATH')) + question).text
         db.insertMessage(True, answer)
         return jsonify({
             'question': question,
