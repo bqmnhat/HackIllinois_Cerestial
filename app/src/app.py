@@ -22,7 +22,7 @@ client = genai.GenerativeModel('gemini-1.5-flash')
 
 def checkForScrape(query):
     global client
-    response = client.generate_content("Answer 'yes' if you need to search the web for additional information to answer the user's question correctly and sufficiently. Answer 'no' if the question pertains to casual conversation. " + query)
+    response = client.generate_content("Answer 'yes' if you need to search the web for additional information to answer the user's question correctly and sufficiently. Answer 'no' if the question pertains to casual conversation or can be answered based on your existing knowledge. " + query)
     print(response.text)
     yes_answers = ["Yes", "yes", "Yes.", "yes.", "YES", "YES."]
     print((yes_answers.count(response.text.strip()) > 0))
@@ -89,15 +89,27 @@ def init():
 def home():
     return render_template("chatbot.html")
 
+@app.route("/internal/get_count", methods=['GET'])
+def get_count():
+    return jsonify({'count': db.getCount()})
+
 @app.route("/internal/load_chat", methods=["GET"])
 def load_chat():
     try:
         n = request.args.get('n', type=int, default=10)
+        page = request.args.get('page', type=int, default=0)
+        max_id = request.args.get('max_id', type=int, default=db.getCount())
 
         if n <= 0:
             return jsonify({"error": "Invalid value for 'n', must be a positive integer."}), 400
+        
+        if page < 0:
+            return jsonify({"error": "Invalid value for 'page', must be a non negative integer."}), 400
+        
+        if max_id < 0:
+            return jsonify({"error": "Invalid value for 'max_id', must be a non negative integer."}), 400
 
-        return jsonify(db.findLastMessages(n))
+        return jsonify({"messages": db.findLastMessages(n, page, max_id)})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -119,7 +131,7 @@ def query():
         else:
             print("gemini")    
             hist = asyncio.run(chatBot.get_messages_as_str())    
-            answer = client.generate_content(hist + read_file_to_text(os.getenv('GIVEN_CONTEXT_PATH')) + question).text
+            answer = client.generate_content("context: " + hist + read_file_to_text(os.getenv('GIVEN_CONTEXT_PATH')) + question).text
         db.insertMessage(True, answer)
         return jsonify({
             'question': question,

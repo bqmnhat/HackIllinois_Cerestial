@@ -12,6 +12,8 @@ Cerestial is built for **Hack Illinois 2025**, showcasing the potential of AI to
 - **Conversational AI**: Engage in intelligent discussions about agriculture planning.
 - **Real-Time Data Retrieval**: Get relevant information on crop management, weather patterns, and more.
 - **Memory Integration**: The chatbot remembers previous interactions for a more personalized experience.
+- **Dual Bot Architecture**: Intelligently redirects queries to specialized bots based on the question type.
+- **PostgreSQL Database**: Stores conversation history for enhanced contextual understanding.
 
 ---
 
@@ -28,12 +30,12 @@ sudo sh ./get-docker.sh --dry-run
 
 **Build image**
 ```
-docker build -t cerestial ./app
+docker compose build
 ```
 
 **Run the Docker container**
 ```
-docker run --env-file .env -p 8127:8127 cerestial
+docker compose up
 ```
 
 ### Technologies Used:
@@ -42,6 +44,14 @@ docker run --env-file .env -p 8127:8127 cerestial
 - **LLM** (Large Language Model): Used for natural language understanding and generation, allowing the chatbot to converse intelligently.
 - **RAG** (Retrieval-Augmented Generation): Augments the LLM with real-time data retrieval for more accurate and relevant answers.
 - **Memory**: Keeps track of ongoing conversations to provide a personalized experience across multiple interactions.
+- **PostgreSQL**: Robust relational database for storing conversation history and user data.
+- **Dual Bot Architecture**: Routes queries to specialized bots for more accurate responses to different types of agricultural questions.
+
+### Contributors:
+- [Contributor Name 1] - [Role/Contribution]
+- Tuan Nguyen Ngo Anh - Frontend Features, Backend Development, Deploying Pipeline
+- [Contributor Name 3] - [Role/Contribution]
+- [Contributor Name 4] - [Role/Contribution]
 
 Built for Hack Illinois 2025, powered by ACM@UIUC
 

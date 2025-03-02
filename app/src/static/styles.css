@@ -355,3 +355,10 @@ body{
         display: block;
     }
 }
+
+.start_session {
+    display: flex;
+    flex: 1;
+    font-weight: 100;
+    align-content: center;
+}

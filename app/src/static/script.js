@@ -5,25 +5,70 @@ const UIToggler = document.querySelector(".UI-toggler");
 const chatbot = document.querySelector(".chatbot");
 
 let userMessage;
-const API_KEY = "";
+let page = 0;
+let last_id;
 
-const createChatLi = (message, className) => {
-    //Create a chat <li> element with passed message and className
+
+
+const getLastId = async () => {
+    const API_URL = "/internal/get_count";
+
+    try {
+        const response = await fetch(API_URL, { method: 'GET' });
+    
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    
+        const data = await response.json();
+        last_id = data.count
+
+        const chatDiv = document.createElement("div");
+        chatDiv.className += " start_session";
+        chatDiv.textContent = "Session started."
+        chatbox.appendChild(chatDiv);
+
+        if (last_id == 0) {
+            chatbox.appendChild(createChatLi(
+                "Hello! What can I help you with?", "incoming", new Date()));
+        }
+      } catch (error) {
+        console.error("Error getting last message's id:", error);
+      }
+}
+
+getLastId();
+
+const createChatLi = (message, className, time) => {
+    // Create a chat <li> element with passed message and className
     const chatLi = document.createElement("li");
     chatLi.classList.add("chat", className);
-    let chatContent = className === "outgoing" ? `<p></p>` : `<span class="material-symbols-outlined">potted_plant</span> <p></p>`;
+    
+    let chatContent = className === "outgoing" 
+        ? `<p></p>` 
+        : `<span class="material-symbols-outlined">potted_plant</span><p></p>`;
+
     chatLi.innerHTML = chatContent;
-    //Prevent HTML input
-    chatLi.querySelector("p").textContent = message;
+    const chatDiv = document.createElement("div");
+    const chatSmall = document.createElement("small");
+    // Prevent HTML input and set message text
+    chatDiv.textContent = message;
+    
+    // Set the time correctly
+    chatSmall.textContent = formatDateToCustomFormat(time);
+    chatLi.querySelector("p").appendChild(chatDiv)
+    chatLi.querySelector("p").appendChild(chatSmall)
+
     return chatLi;
-}
+};
+
 
 //**************************BIG PART
 const generateResponse = (incomingChatLi, message) => {
 
     
     const API_url = "/internal/query";
-    const messageElement = incomingChatLi.querySelector("p");
+    const messageElement = incomingChatLi.querySelector("p div");
 
     const requestOptions = {
         method: "POST",
@@ -44,10 +89,17 @@ const generateResponse = (incomingChatLi, message) => {
                 console.log("MathJax rendering complete");
             });
         }
+        setTimeout( () => {
+            sendChatBtn.disabled = false;
+            chatInput.disabled = false;
+            sendChatBtn.addEventListener("click", handleChat);
+            chatInput.addEventListener("keydown", check_handle);
+            chatInput.focus(); 
+        }, 600)
         
     }).catch((error) => {
         console.log(error);
-        messageElement.textContent = "Uh oh, wrong data :(("
+        messageElement.textContent = "Uh oh,something is wrong :(("
     }).finally(() => chatbox.scrollTo(0, chatbox.scrollHeight)); 
     //Wow. two anonymous classes in one line
 }
@@ -129,22 +181,69 @@ const drawGraph = (xValues, yValues, graph) => {
 
 let weatherStats = setInterval(getWeatherStats(), 1000);
 
+function formatDateToCustomFormat(jsDate) {
+    // Use getUTCHours() to avoid timezone issues and keep consistent with UTC time
+    const hours = jsDate.getHours().toString().padStart(2, '0'); // 24-hour format
+    const minutes = jsDate.getMinutes().toString().padStart(2, '0'); // Ensure two digits for minutes
+    const month = (jsDate.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-based
+    const day = jsDate.getDate().toString().padStart(2, '0'); // Ensure two digits for day
+    const year = jsDate.getFullYear().toString().slice(-2); // Get last two digits of the year
+    
+    return `${hours}:${minutes} ${month}/${day}/${year}`;
+}
+
+const loadChat = async () => {
+    const API_url = "/internal/load_chat";
+    const query = `n=5&page=${page}&max_id=${last_id}`;
+    const url = `${API_url}?${query}`;
+
+  try {
+    const response = await fetch(url, { method: 'GET' });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const messages = data.messages;
+    if (messages.length == 0) {
+        return;
+    }
+    for (const message of messages) {  
+        let date = new Date(message.time)
+        date.setHours(date.getHours() - 6);
+        if (message.isBot == "True") {  
+            chatbox.insertBefore(createChatLi(message.message, "incoming", date), chatbox.firstChild); 
+        } else {
+            chatbox.insertBefore(createChatLi(message.message, "outgoing", date), chatbox.firstChild);
+        }
+    }
+    page += 1;
+
+  } catch (error) {
+    console.error('Error loading chat:', error);
+  }
+}
  
 const handleChat = () => {
     userMessage = chatInput.value.trim();
     console.log(userMessage); //Important.
     if (!userMessage) return;
+    sendChatBtn.disabled = true;
+    chatInput.blur(); 
+    sendChatBtn.removeEventListener("click", handleChat);
+    chatInput.removeEventListener("keydown", check_handle);
     chatInput.value = ""; //Delete chat once sent
     
     //Append user's message to chatbox 
-    chatbox.appendChild(createChatLi(userMessage, "outgoing"));
+    chatbox.appendChild(createChatLi(userMessage, "outgoing", new Date()));
 
     //Auto-scroll to bottom
     chatbox.scrollTo(0, chatbox.scrollHeight);
 
     setTimeout(() => {
         //Chatbot think.
-        const incomingChatLi = createChatLi("Hmmmm...", "incoming")
+        const incomingChatLi = createChatLi("Hmmmm...", "incoming", new Date())
         
         chatbox.appendChild(incomingChatLi);
         chatbox.scrollTo(0, chatbox.scrollHeight);
@@ -167,9 +266,41 @@ if (UIToggler && widgetContainer) {
 
 sendChatBtn.addEventListener("click", handleChat);
 
-chatInput.addEventListener("keydown", function(event) {
+chatInput.addEventListener("keydown", check_handle);
+
+function check_handle(event) {
     if (event.key === "Enter") {
         event.preventDefault();
         handleChat();
     }
+};
+
+chatbox.addEventListener("scroll", (event) => {
+    if (chatbox.scrollTop === 0) {
+        loadChat();
+    }
 });
+
+function enable_load_chat() {
+    chatbox.addEventListener("scroll", check_top_load);
+}
+
+function disable_load_chat() {
+    chatbox.removeEventListener("scroll", check_top_load);
+}
+
+function check_top_load() {
+    if (chatbox.scrollTop === 0) {
+        loadChat();
+    }
+    disable_load_chat();
+}
+
+function check_not_top() {
+    if (chatbox.scrollTop > 10) {
+        enable_load_chat();
+    }
+}
+
+loadChat()
+chatbox.scrollTo(0, chatbox.scrollHeight);
