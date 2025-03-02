@@ -22,7 +22,7 @@ client = genai.GenerativeModel('gemini-1.5-flash')
 
 def checkForScrape(query):
     global client
-    response = client.generate_content("Answer 'yes' if it is currently not a casual conversation. Answer 'no' if the question pertains to casual conversation. " + query)
+    response = client.generate_content("Answer 'yes' if you need to search the web for additional information to answer the user's question correctly and sufficiently. Answer 'no' if the question pertains to casual conversation or can be answered based on your existing knowledge. " + query)
     print(response.text)
     yes_answers = ["Yes", "yes", "Yes.", "yes.", "YES", "YES."]
     print((yes_answers.count(response.text.strip()) > 0))
