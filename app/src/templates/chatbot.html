@@ -20,7 +20,8 @@
 
   </head>
   <body class="show-chatbot">
-    <h2>Text</h2>
+    <!-- <p id="temp">Nom</p> -->
+
     <div class="widget-container">
       <div class="widget-temp">
         <img
@@ -28,12 +29,13 @@
           src="{{ url_for('static', filename='rainy.gif') }}"
           alt="raining"
         />
-        <h1>20°</h1>
+        <h1 id = "temperature">N/a</h1>
         <p>Chicago, Illinois</p>
       </div>
 
       <div class="widget-soil">
-        <p>soil</p>
+        <!-- <canvas id = "chart" style = "width: 100%; max-width: 600px"></canvas> -->
+        <p id = "chart">soil</p>
       </div>
     </div>
 
