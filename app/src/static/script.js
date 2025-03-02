@@ -66,10 +66,18 @@ const getWeatherStats = () => {
     fetch(API_url, requestOptions).then(res => res.json()).then(data => {
         console.log("bello!");
         current_weather = data.current_weather;
-        // day = data.day
+        day = data.day
         console.log(current_weather)
         document.getElementById("temperature").innerHTML = current_weather + "°";
-        //document.getElementById("chart").innerHTML = day;
+
+        const xValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+
+        let graph = document.getElementById("chart");
+        if (graph) {
+            drawGraph(xValues, day, graph);
+        }
+
+        
 
     }).catch((error) => {
         console.log(error);
@@ -79,25 +87,42 @@ const getWeatherStats = () => {
     //window.setInterval(getWeatherStats(), 100)
 }
 
-const drawGraph = (yValues) => {
-    const xValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
-    new Chart("chart", {
+const drawGraph = (xValues, yValues, graph) => {
+    
+    new Chart(graph, {
         type: "line",
         data: {
             labels: xValues,
             datasets: [{
                 backgroundColor: "rgba(0, 0, 255, 1.0)",
+                fill: false,
                 borderColor: "rgba(0, 0, 255, 1.0)",
                 data: yValues
             }]
         },
         options: {
-            legend: {display: false},
             scales: {
-                yAxes: [{ticks: {min: 6, max: 16}}],
+                x: {
+                    ticks: {
+                        color: "black"
+                    }
+                    
+                },
+                y: {
+                    ticks: {
+                        color: "black"
+                    }
+                }
+
             }
+            //legend: {display: false},
+            //scales: {
+            //    yAxes: [{ticks: {min: -10, max: 10}}],
+            //}
         }
     });
+
+    //chart.render()
 }
 
 let weatherStats = setInterval(getWeatherStats(), 1000);
