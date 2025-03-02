@@ -1,6 +1,11 @@
 const chatInput = document.querySelector(".chat-input textarea");
 const sendChatBtn = document.querySelector(".chat-input span");
 const chatbox = document.querySelector(".chatbox");
+const widget = document.getElementById('scrollable-widget');
+const slides = widget.querySelectorAll('.widget-temp');
+let currentSlide = 0;
+const threshold = 50;
+
 
 let userMessage;
 const API_KEY = "";
@@ -66,10 +71,19 @@ const getWeatherStats = () => {
     fetch(API_url, requestOptions).then(res => res.json()).then(data => {
         console.log("bello!");
         current_weather = data.current_weather;
-        // day = data.day
+        day = data.day
         console.log(current_weather)
+        console.log(day)
         document.getElementById("temperature").innerHTML = current_weather + "°";
-        //document.getElementById("chart").innerHTML = day;
+
+        const xValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+
+        let graph = document.getElementById("chart");
+        if (graph) {
+            drawGraph(xValues, day, graph);
+        }
+
+        
 
     }).catch((error) => {
         console.log(error);
@@ -79,31 +93,50 @@ const getWeatherStats = () => {
     //window.setInterval(getWeatherStats(), 100)
 }
 
-const drawGraph = (yValues) => {
-    const xValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
-    new Chart("chart", {
+const drawGraph = (xValues, yValues, graph) => {
+    
+    new Chart(graph, {
         type: "line",
         data: {
             labels: xValues,
             datasets: [{
                 backgroundColor: "rgba(0, 0, 255, 1.0)",
+                fill: false,
                 borderColor: "rgba(0, 0, 255, 1.0)",
                 data: yValues
             }]
         },
         options: {
-            legend: {display: false},
             scales: {
-                yAxes: [{ticks: {min: 6, max: 16}}],
+                x: {
+                    ticks: {
+                        color: "black"
+                    }
+                    
+                },
+                y: {
+                    ticks: {
+                        color: "black"
+                    }
+                }
+
             }
+            //legend: {display: false},
+            //scales: {
+            //    yAxes: [{ticks: {min: -10, max: 10}}],
+            //}
         }
     });
+
+    //chart.render()
 }
 
 let weatherStats = setInterval(getWeatherStats(), 1000);
 
  
 const handleChat = () => {
+    sendChatBtn.removeEventListener("click", handleChat);
+    chatInput.removeEventListener("keydown", handleChatKeydown);
     userMessage = chatInput.value.trim();
     console.log(userMessage); //Important.
     if (!userMessage) return;
@@ -123,7 +156,37 @@ const handleChat = () => {
         chatbox.scrollTo(0, chatbox.scrollHeight);
         generateResponse(incomingChatLi, userMessage);
     }, 600)
+    // sendChatBtn.addEventListener("click", handleChat);
+
+    // chatInput.addEventListener("keydown", function(event) {
+    //     if (event.key === "Enter") {
+    //         event.preventDefault();
+    //         handleChat();
+    //     }
+    // });
 }
+
+widget.addEventListener('wheel', (event) => {
+    // Prevent default scroll behavior if you want to control the interaction completely
+    event.preventDefault();
+  
+    if (event.deltaY > threshold) {
+      // Scroll down detected: show next slide if it exists
+      if (currentSlide < slides.length - 1) {
+        slides[currentSlide].classList.remove('active');
+        currentSlide++;
+        slides[currentSlide].classList.add('active');
+      }
+    } else if (event.deltaY < -threshold) {
+      // Scroll up detected: show previous slide if it exists
+      if (currentSlide > 0) {
+        slides[currentSlide].classList.remove('active');
+        currentSlide--;
+        slides[currentSlide].classList.add('active');
+      }
+    }
+  });
+
 sendChatBtn.addEventListener("click", handleChat);
 
 chatInput.addEventListener("keydown", function(event) {
