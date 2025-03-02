@@ -4,12 +4,13 @@ from data_scraper import updateWeatherContext
 import files_utils as files_utils
 from apscheduler.schedulers.background import BackgroundScheduler
 from dotenv import load_dotenv
-from weather_today import get_today_weather
+from weather_today import get_current_weather, get_24h_weather
 from crawler import updateScrapeData
 import os
 import pandas as pa
 import conversation_repo
 import google.generativeai as genai
+import asyncio
 
 
 load_dotenv()
@@ -70,7 +71,7 @@ def updateContext(query):
     files_utils.removeFile(context_path)
     files_utils.concatFiles(context_path, contexts) 
 
-    chatBot = Model()
+    chatBot.create_conversation_chain()
 
 def read_file_to_text(path):
     file = open(path, "r")
@@ -128,8 +129,9 @@ def query():
             answer = chatBot.ask(question)
             # answer = client.generate_content(read_file_to_text(os.getenv('CONTEXT_PATH')) + question).text
         else:
-            print("gemini")            
-            answer = client.generate_content(read_file_to_text(os.getenv('GIVEN_CONTEXT_PATH')) + question).text
+            print("gemini")    
+            hist = asyncio.run(chatBot.get_messages_as_str())    
+            answer = client.generate_content(hist + read_file_to_text(os.getenv('GIVEN_CONTEXT_PATH')) + question).text
         db.insertMessage(True, answer)
         return jsonify({
             'question': question,
@@ -139,8 +141,9 @@ def query():
         return jsonify({'error': str(e)}), 500
     
 @app.route("/internal/weather", methods=["POST"])
-def send_weather():
-    today_wea_df = get_today_weather()
+def weather():
+    current_weather = get_current_weather()
+    day_weather = get_24h_weather()
     try:
         data = request.get_json()
         
@@ -150,12 +153,18 @@ def send_weather():
         category = data.get('category')
         #print(category)
         #print(today_wea_df[category] , "and ", type(today_wea_df[category]))
-        #today_wea_df[category] = today_wea_df[category].astype("string")
+        day_weather[category] = day_weather[category].astype(str)
         
         #stats = today_wea_df[category].tolist()
-    
-        
-        return "{}".format(round(today_wea_df[category]))
+        print(day_weather[category])
+        current = round(current_weather[category])
+        dw_list = day_weather[category].values.tolist()
+
+        # stats = {'current_weather': current, 'day': day}
+        # print(stats)
+        json_response = jsonify({'current_weather': current, 'day': dw_list})
+        # return jsonify(stats)
+        return json_response
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
