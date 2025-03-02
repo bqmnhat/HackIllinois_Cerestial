@@ -4,7 +4,7 @@ from data_scraper import updateWeatherContext
 import files_utils as files_utils
 from apscheduler.schedulers.background import BackgroundScheduler
 from dotenv import load_dotenv
-from weather_today import get_today_weather
+from weather_today import get_current_weather, get_24h_weather
 from crawler import updateScrapeData
 import os
 import pandas as pa
@@ -96,7 +96,7 @@ def load_chat():
         if n <= 0:
             return jsonify({"error": "Invalid value for 'n', must be a positive integer."}), 400
 
-        return jsonify(db.findLastMessage(n))
+        return jsonify(db.findLastMessages(n))
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -127,8 +127,9 @@ def query():
         return jsonify({'error': str(e)}), 500
     
 @app.route("/internal/weather", methods=["POST"])
-def send_weather():
-    today_wea_df = get_today_weather()
+def weather():
+    current_weather = get_current_weather()
+    day_weather = get_24h_weather()
     try:
         data = request.get_json()
         
@@ -138,12 +139,18 @@ def send_weather():
         category = data.get('category')
         #print(category)
         #print(today_wea_df[category] , "and ", type(today_wea_df[category]))
-        #today_wea_df[category] = today_wea_df[category].astype("string")
+        day_weather[category] = day_weather[category].astype(str)
         
         #stats = today_wea_df[category].tolist()
-    
-        
-        return "{}".format(round(today_wea_df[category]))
+        print(day_weather[category])
+        current = round(current_weather[category])
+        dw_list = day_weather[category].values.tolist()
+
+        # stats = {'current_weather': current, 'day': day}
+        # print(stats)
+        json_response = jsonify({'current_weather': current, 'day': dw_list})
+        # return jsonify(stats)
+        return json_response
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

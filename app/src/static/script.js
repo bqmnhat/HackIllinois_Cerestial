@@ -38,6 +38,7 @@ const generateResponse = (incomingChatLi, message) => {
          })
     }
 
+    //Not working
     fetch(API_url, requestOptions).then(res => res.json()).then(data => {
         response = data.answer;
         messageElement.textContent = response;
@@ -55,7 +56,7 @@ const generateResponse = (incomingChatLi, message) => {
 }
 
 const getWeatherStats = () => {
-    const API_url = "http://127.0.0.1:5000/internal/weather"
+    const API_url = "/internal/weather"
 
     const requestOptions = {
         method: "POST",
@@ -69,13 +70,39 @@ const getWeatherStats = () => {
 
     fetch(API_url, requestOptions).then(res => res.json()).then(data => {
         console.log("bello!");
-        document.querySelector("h2").innerHTML = data;
+        current_weather = data.current_weather;
+        // day = data.day
+        console.log(current_weather)
+        document.getElementById("temperature").innerHTML = current_weather + "°";
+        //document.getElementById("chart").innerHTML = day;
+
     }).catch((error) => {
         console.log(error);
 
     })
 
     //window.setInterval(getWeatherStats(), 100)
+}
+
+const drawGraph = (yValues) => {
+    const xValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+    new Chart("chart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: "rgba(0, 0, 255, 1.0)",
+                borderColor: "rgba(0, 0, 255, 1.0)",
+                data: yValues
+            }]
+        },
+        options: {
+            legend: {display: false},
+            scales: {
+                yAxes: [{ticks: {min: 6, max: 16}}],
+            }
+        }
+    });
 }
 
 let weatherStats = setInterval(getWeatherStats(), 1000);

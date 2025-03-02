@@ -10,6 +10,7 @@ GRANT ALL PRIVILEGES ON DATABASE mydatabase TO myuser;
 -- Connect to the newly created database
 \c mydatabase
 
+
 -- Create conversation table
 CREATE TABLE CONVERSATION (
     id SERIAL PRIMARY KEY,
@@ -19,5 +20,5 @@ CREATE TABLE CONVERSATION (
 );
 
 -- Grant privileges on the table to the user
-GRANT ALL PRIVILEGES ON TABLE CONVERSATION TO myuser;
+GRANT ALL PRIVILEGES ON TABLE conversation TO myuser;
 GRANT USAGE, SELECT ON SEQUENCE conversation_id_seq TO myuser;
