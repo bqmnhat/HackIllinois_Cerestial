@@ -112,13 +112,22 @@ class DB:
             self.conn.rollback()
             raise
 
-    def findLastMessages(self, n):
+    def findLastMessages(self, n, page, max_id):
         curs = self.conn.cursor()
-        query = "SELECT * FROM conversation ORDER BY id DESC LIMIT %s;"
-        curs.execute(query, (n,))
+        offset = page * n
+        query = "SELECT * FROM conversation WHERE id < %s ORDER BY id DESC OFFSET %s ROWS LIMIT %s;"
+        curs.execute(query, (max_id, offset, n))
         messages = curs.fetchall()
         curs.close()
         return [Message(message).to_dict() for message in messages]
+    
+    def getCount(self):
+        curs = self.conn.cursor()
+        query = "SELECT COUNT(*) FROM conversation;"
+        curs.execute(query)
+        count = curs.fetchone()[0]
+        curs.close()
+        return count
          
     def insertMessage(self, is_bot, message):
         time = datetime.now()

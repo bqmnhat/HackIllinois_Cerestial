@@ -3,25 +3,56 @@ const sendChatBtn = document.querySelector(".chat-input span");
 const chatbox = document.querySelector(".chatbox");
 
 let userMessage;
-const API_KEY = "";
+let page = 0;
 
-const createChatLi = (message, className) => {
-    //Create a chat <li> element with passed message and className
+const getLastId = async () => {
+    const API_URL = "/internal/get_count";
+
+    try {
+        const response = await fetch(API_URL, { method: 'GET' });
+    
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    
+        const data = await response.json();
+        page = 
+      } catch (error) {
+        console.error("Error getting last message's id:", error);
+      }
+}
+
+const last_id = getLastId()
+const createChatLi = (message, className, time) => {
+    // Create a chat <li> element with passed message and className
     const chatLi = document.createElement("li");
     chatLi.classList.add("chat", className);
-    let chatContent = className === "outgoing" ? `<p></p>` : `<span class="material-symbols-outlined">potted_plant</span> <p></p>`;
+    
+    let chatContent = className === "outgoing" 
+        ? `<p></p>` 
+        : `<span class="material-symbols-outlined">potted_plant</span><p></p>`;
+
     chatLi.innerHTML = chatContent;
-    //Prevent HTML input
-    chatLi.querySelector("p").textContent = message;
+    const chatDiv = document.createElement("div");
+    const chatSmall = document.createElement("small");
+    // Prevent HTML input and set message text
+    chatDiv.textContent = message;
+    
+    // Set the time correctly
+    chatSmall.textContent = formatDateToCustomFormat(time);
+    chatLi.querySelector("p").appendChild(chatDiv)
+    chatLi.querySelector("p").appendChild(chatSmall)
+
     return chatLi;
-}
+};
+
 
 //**************************BIG PART
 const generateResponse = (incomingChatLi, message) => {
 
     
     const API_url = "/internal/query";
-    const messageElement = incomingChatLi.querySelector("p");
+    const messageElement = incomingChatLi.querySelector("p div");
 
     const requestOptions = {
         method: "POST",
@@ -44,13 +75,13 @@ const generateResponse = (incomingChatLi, message) => {
         
     }).catch((error) => {
         console.log(error);
-        messageElement.textContent = "Uh oh, wrong data :(("
+        messageElement.textContent = "Uh oh,something is wrong :(("
     }).finally(() => chatbox.scrollTo(0, chatbox.scrollHeight)); 
     //Wow. two anonymous classes in one line
 }
 
 const getWeatherStats = () => {
-    const API_url = "http://127.0.0.1:5000/internal/weather"
+    const API_url = "/internal/weather"
 
     const requestOptions = {
         method: "POST",
@@ -75,6 +106,46 @@ const getWeatherStats = () => {
 
 let weatherStats = setInterval(getWeatherStats(), 1000);
 
+function formatDateToCustomFormat(jsDate) {
+    const hours = jsDate.getHours().toString().padStart(2, '0'); // Ensure two digits
+    const minutes = jsDate.getMinutes().toString().padStart(2, '0'); // Ensure two digits
+    const month = (jsDate.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-based
+    const day = jsDate.getDate().toString().padStart(2, '0');
+    const year = jsDate.getFullYear().toString().slice(2); // Get last two digits of the year
+    
+    return `${hours}:${minutes} ${month}/${day}/${year}`;
+}
+
+const loadChat = async () => {
+    const API_url = "/internal/load_chat";
+    const query = `n=5&page=${page}&max_id=${last_id}`;
+    const url = `${API_url}?${query}`;
+
+  try {
+    const response = await fetch(url, { method: 'GET' });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const messages = data.messages;
+    if (messages.length == 0) {
+        return;
+    }
+    for (const message of messages) {  
+        if (message.isBot == "True") {  
+            chatbox.insertBefore(createChatLi(message.message, "incoming", new Date(message.time)), chatbox.firstChild); 
+        } else {
+            chatbox.insertBefore(createChatLi(message.message, "outgoing", new Date(message.time)), chatbox.firstChild);
+        }
+    }
+    page += 1;
+
+  } catch (error) {
+    console.error('Error loading chat:', error);
+  }
+}
  
 const handleChat = () => {
     userMessage = chatInput.value.trim();
@@ -83,14 +154,14 @@ const handleChat = () => {
     chatInput.value = ""; //Delete chat once sent
     
     //Append user's message to chatbox 
-    chatbox.appendChild(createChatLi(userMessage, "outgoing"));
+    chatbox.appendChild(createChatLi(userMessage, "outgoing", new Date()));
 
     //Auto-scroll to bottom
     chatbox.scrollTo(0, chatbox.scrollHeight);
 
     setTimeout(() => {
         //Chatbot think.
-        const incomingChatLi = createChatLi("Hmmmm...", "incoming")
+        const incomingChatLi = createChatLi("Hmmmm...", "incoming", new Date())
         
         chatbox.appendChild(incomingChatLi);
         chatbox.scrollTo(0, chatbox.scrollHeight);
@@ -105,3 +176,32 @@ chatInput.addEventListener("keydown", function(event) {
         handleChat();
     }
 });
+
+chatbox.addEventListener("scroll", (event) => {
+    if (chatbox.scrollTop === 0) {
+        loadChat();
+    }
+});
+
+function enable_load_chat() {
+    chatbox.addEventListener("scroll", check_top_load);
+}
+
+function disable_load_chat() {
+    chatbox.removeEventListener("scroll", check_top_load);
+}
+
+function check_top_load() {
+    if (chatbox.scrollTop === 0) {
+        loadChat();
+    }
+    disable_load_chat();
+}
+
+function check_not_top() {
+    if (chatbox.scrollTop > 10) {
+        enable_load_chat();
+    }
+}
+
+loadChat()
