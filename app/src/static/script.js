@@ -130,7 +130,7 @@ const handleChat = () => {
     }, 600)
 }
 
-widget.addEventListener('wheel', (event) => {
+widget-container.addEventListener('wheel', (event) => {
     // Prevent default scroll behavior if you want to control the interaction completely
     event.preventDefault();
   

@@ -17,7 +17,7 @@ body{
 
 
 .scrollable-widget {
-    height:250;
+    height:250px;
     width:100%;
     overflow: hidden;
     position: relative;
@@ -42,11 +42,11 @@ body{
 
 }
 
-.slide.active {
+.widget-temp.active {
     opacity: 1;
   }
 
-  
+
 .widget-soil {
     border-radius: 15px;
     box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
