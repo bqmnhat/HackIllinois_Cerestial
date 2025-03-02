@@ -96,7 +96,7 @@ def load_chat():
         if n <= 0:
             return jsonify({"error": "Invalid value for 'n', must be a positive integer."}), 400
 
-        return jsonify(db.findLastMessage(n))
+        return jsonify(db.findLastMessages(n))
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
