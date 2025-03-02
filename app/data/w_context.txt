@@ -1,6 +1,6 @@
 Weather Forecast for
 Timezone: b'America/Chicago' b'GMT-6'
-Unit: Temperature - Farenheit; daylight or sunshine duration - seconds; precipitation - mm; Wind Speed - m/s
+Unit: Temperature - Celsius; daylight or sunshine duration - seconds; precipitation - mm; Wind Speed - m/s
 Date: 2025-03-01
   Max Temperature: 2.8239998817443848
   Min Temperature: -5.326000213623047

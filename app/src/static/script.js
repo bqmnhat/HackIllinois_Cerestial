@@ -121,11 +121,11 @@ const getWeatherStats = () => {
         console.log("bello!");
         current_weather = data.current_weather;
         day = data.day
-        for (let i = 0; i < day.length; i++) {
-            day[i] = day[i] * 9/5 + 32;
-        }
+        //for (let i = 0; i < day.length; i++) {
+        //    day[i] = day[i] * 9/5 + 32;
+        //}
         console.log(current_weather)
-        document.getElementById("temperature").innerHTML = (current_weather * 9/5 + 32) + "°F";
+        document.getElementById("temperature").innerHTML = current_weather + "°C";
 
         const xValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
 
