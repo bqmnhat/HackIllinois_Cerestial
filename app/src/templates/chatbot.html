@@ -27,17 +27,14 @@
     <!-- <p id="temp">Nom</p> -->
 
     <div class="widget-container">
-      <div class="scrollable-widget">
-        <div class="widget-temp active" id="slide1">
-          <img
-            class="weatherimg"
-            src="{{ url_for('static', filename='rainy.gif') }}"
-            alt="raining"
-          />
-          <h1 id="temperature">N/a</h1>
-          <p>Chicago, Illinois</p>
-        </div>
-        <div class="widget-temp" id="slide2"></div>
+      <div class="widget-temp">
+        <img
+          class="weatherimg"
+          src="{{ url_for('static', filename='rainy.gif') }}"
+          alt="raining"
+        />
+        <h1 id="temperature">N/a</h1>
+        <p>Chicago, Illinois</p>
       </div>
 
       <div class="widget-soil">
@@ -51,12 +48,7 @@
         <h2>Cerestial</h2>
         <span class="material-symbols-outlined"> close </span>
       </header>
-      <ul class="chatbox">
-        <li class="chat incoming">
-          <span class="material-symbols-outlined"> potted_plant </span>
-          <p>Hello! What can I help you with?</p>
-        </li>
-      </ul>
+      <ul class="chatbox"></ul>
       <div class="chat-input">
         <textarea placeholder="Ask a question..." required></textarea>
         <span id="send-btn" class="material-symbols-outlined">send </span>

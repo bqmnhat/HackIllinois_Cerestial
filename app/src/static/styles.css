@@ -15,14 +15,6 @@ body{
     margin-right: 50px;
 }
 
-
-.scrollable-widget {
-    height:250px;
-    width:100%;
-    overflow: hidden;
-    position: relative;
-}
-
 .widget-temp {
     border-radius: 15px;
     box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
@@ -37,16 +29,9 @@ body{
     right: 40px;
     bottom:100px;
     border-radius: 15px;
-    position: absolute;
-    opacity: 0;
+
 
 }
-
-.widget-temp.active {
-    opacity: 1;
-  }
-
-
 .widget-soil {
     border-radius: 15px;
     box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
@@ -267,4 +252,11 @@ body{
     .chatbot header span {
         display: block;
     }
+}
+
+.start_session {
+    display: flex;
+    flex: 1;
+    font-weight: 100;
+    align-content: center;
 }

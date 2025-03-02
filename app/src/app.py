@@ -10,6 +10,7 @@ import os
 import pandas as pa
 import conversation_repo
 import google.generativeai as genai
+import asyncio
 
 
 load_dotenv()
@@ -70,7 +71,7 @@ def updateContext(query):
     files_utils.removeFile(context_path)
     files_utils.concatFiles(context_path, contexts) 
 
-    chatBot = Model()
+    chatBot.create_conversation_chain()
 
 def read_file_to_text(path):
     file = open(path, "r")
@@ -88,15 +89,27 @@ def init():
 def home():
     return render_template("chatbot.html")
 
+@app.route("/internal/get_count", methods=['GET'])
+def get_count():
+    return jsonify({'count': db.getCount()})
+
 @app.route("/internal/load_chat", methods=["GET"])
 def load_chat():
     try:
         n = request.args.get('n', type=int, default=10)
+        page = request.args.get('page', type=int, default=0)
+        max_id = request.args.get('max_id', type=int, default=db.getCount())
 
         if n <= 0:
             return jsonify({"error": "Invalid value for 'n', must be a positive integer."}), 400
+        
+        if page < 0:
+            return jsonify({"error": "Invalid value for 'page', must be a non negative integer."}), 400
+        
+        if max_id < 0:
+            return jsonify({"error": "Invalid value for 'max_id', must be a non negative integer."}), 400
 
-        return jsonify(db.findLastMessages(n))
+        return jsonify({"messages": db.findLastMessages(n, page, max_id)})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -116,8 +129,9 @@ def query():
             answer = chatBot.ask(question)
             # answer = client.generate_content(read_file_to_text(os.getenv('CONTEXT_PATH')) + question).text
         else:
-            print("gemini")            
-            answer = client.generate_content(read_file_to_text(os.getenv('GIVEN_CONTEXT_PATH')) + question).text
+            print("gemini")    
+            hist = asyncio.run(chatBot.get_messages_as_str())    
+            answer = client.generate_content(hist + read_file_to_text(os.getenv('GIVEN_CONTEXT_PATH')) + question).text
         db.insertMessage(True, answer)
         return jsonify({
             'question': question,

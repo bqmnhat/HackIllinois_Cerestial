@@ -5,6 +5,7 @@ from langchain.vectorstores import FAISS
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.memory import ConversationBufferMemory
+import asyncio
 
 import os
 
@@ -28,7 +29,10 @@ class Model:
 
     def llm(self):
         return ChatOpenAI(temperature=0.7, model_name="gpt-4o")
-
+    
+    async def get_messages_as_str(self):
+        return await self.memory().abuffer_as_str()
+    
     def create_conversation_chain(self):
         return ConversationalRetrievalChain.from_llm(
             llm=self.llm(),
